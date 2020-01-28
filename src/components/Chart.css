@@ -1,0 +1,11 @@
+.Chart {
+  width: 360px;
+  height: 300px;
+}
+
+@media only screen and (min-width: 1024px) {
+  .Chart {
+    width: 500px;
+    height: 400px;
+  }
+}
