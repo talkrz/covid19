@@ -28,9 +28,10 @@ export default function Main({ data }) {
     const tableData = calculateExponent(data);
     setTable(tableData);
 
-    const avgExponent = tableData.reduce((acc, curr) => {
+    const lastNElements = 4;
+    const avgExponent = tableData.slice(-lastNElements).reduce((acc, curr) => {
       return acc + curr[3];
-    }, 0.0) / (data.length - 1);
+    }, 0.0) / lastNElements;
  
     const forecast = Math.pow(Math.E, Math.log(data[data.length - 1][1]) + avgExponent);
     
