@@ -48,7 +48,7 @@ function prepareProvincesData(dataByProvince) {
       data: cumulativeResult,
     })
   })
-console.log('res', resultArray)
+
   return resultArray;
 }
 
@@ -87,9 +87,13 @@ function App() {
       <h2>China by provinces</h2>
       <div className="App-select-province">
         {byProvince.map((provinceData, i) => (
-          <>
-            <button class={`App-select-button${i === chosenProvince ? ' App-select-button-selected' : ''}`} onClick={() => chooseProvince(i)}>{provinceData.province}</button>
-          </>
+          <button
+            key={provinceData.province}
+            className={`App-select-button${i === chosenProvince ? ' App-select-button-selected' : ''}`}
+            onClick={() => chooseProvince(i)}
+          >
+            {provinceData.province}
+          </button>
         ))}
       </div>
       <p>Source: <a target="_blank" rel="noopener noreferrer"
