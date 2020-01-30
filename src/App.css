@@ -7,7 +7,36 @@
   align-items: center;
   justify-content: center;
 }
+.App h2 {
+  font-size: 30px;
+}
 
-.App h1, .App h2 {
+.App h1 {
   font-weight: lighter;
+}
+
+.App-select-button {
+  border: none;
+  padding: 5px 12px;
+  margin: 2px;
+  font-size: 16px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.App-select-button:focus {
+  outline:0;
+}
+
+.App-select-button-selected {
+  background: #8884d8;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.App-select-province {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px;
 }

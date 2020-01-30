@@ -1,46 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MathJax from 'react-mathjax';
 import './App.css';
 
 import Main from './components/Main';
 
+import data from './data/cumulative-china.json';
+import dataRest from './data/cumulative-outside-china.json';
+import dataByProvince from './data/new-china-by-province.json';
 
-const data = [
-  ['2020-01-16', 45],
-  ['2020-01-17', 62],
-  ['2020-01-18', 121],
-  ['2020-01-19', 198],
-  ['2020-01-20', 291],
-  ['2020-01-21', 440],
-  ['2020-01-22', 571],
-  ['2020-01-23', 830],
-  ['2020-01-24', 1287],
-  ['2020-01-25', 1975],
-  ['2020-01-26', 2744],
-  ['2020-01-27', 4515],
-  ['2020-01-28', 5974],
-  ['2020-01-29', 7711],
-]
+/**
+ * A lot of shitty data juggling
+ */
+function prepareProvincesData(dataByProvince) {
+  const result = {};
 
-const dataRest = [
-  ['2020-01-20', 4],
-  ['2020-01-21', 6],
-  ['2020-01-22', 8],
-  ['2020-01-23', 14],
-  ['2020-01-24', 25],
-  ['2020-01-25', 40],
-  ['2020-01-26', 57],
-  ['2020-01-27', 64],
-  ['2020-01-28', 87],
-  ['2020-01-29', 106],
-]
+  dataByProvince.forEach(dayData => {
+    const date = dayData['Date (CST)'];
+    Object.keys(dayData).forEach(key => {
+      if (key !== 'Date (CST)') {
+        if (result[key] === undefined) {
+          result[key] = [];
+        }
+
+
+        if (dayData[key] !== '') {
+          result[key].push([
+            date, dayData[key],
+          ]);
+        }
+      }
+    })
+  });
+
+  const resultArray = [];
+  Object.keys(result).forEach(province => {
+
+    let previousValue = 0.0;
+    const cumulativeResult = result[province].map((dayRow) => {
+      const newValue = dayRow[1] + previousValue;
+      const newRow = [ dayRow[0], newValue];
+      previousValue = newValue;
+      return newRow;
+    })
+
+    resultArray.push({
+      province,
+      data: cumulativeResult,
+    })
+  })
+console.log('res', resultArray)
+  return resultArray;
+}
 
 function App() {
+  const [byProvince, setByProvince] = useState([]);
+  const [chosenProvince, chooseProvince] = useState(0);
+
+  useEffect(() => {
+    setByProvince(prepareProvincesData(dataByProvince));
+  }, []);
 
 
   return (
     <div className="App">
       <h1>Monitoring the Wuhan virus spread pace</h1>
+
       <h2>China</h2>
       <p>Source: <a target="_blank" rel="noopener noreferrer"
           href="https://en.wikipedia.org/wiki/Timeline_of_the_2019–20_Wuhan_coronavirus_outbreak"
@@ -48,21 +72,44 @@ function App() {
         </a>
       </p>
       <Main data={data} />
+
       <h2>Rest of the world</h2>
+
       <p>Source: <a target="_blank" rel="noopener noreferrer"
           href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"
         >gisanddata.maps.arcgis.com
         </a>
       </p>
+
       <Main data={dataRest} />
+
+      <h2>China by provinces</h2>
+      <div className="App-select-province">
+        {byProvince.map((provinceData, i) => (
+          <>
+            <button class={`App-select-button${i === chosenProvince ? ' App-select-button-selected' : ''}`} onClick={() => chooseProvince(i)}>{provinceData.province}</button>
+          </>
+        ))}
+      </div>
+      <p>Source: <a target="_blank" rel="noopener noreferrer"
+          href="https://en.wikipedia.org/wiki/Timeline_of_the_2019%E2%80%9320_Wuhan_coronavirus_outbreak"
+        >wikipedia.org
+        </a>
+      </p>
+      {byProvince[chosenProvince] !== undefined && <Main data={byProvince[chosenProvince].data} />}
+
       <MathJax.Provider>
         <p className="Main-description">
           The forcast is calculated assuming number of cases follows exponential
           growth <MathJax.Node inline="true" formula="x(t) = e^{kt}"></MathJax.Node> where
-          k is the "growth factor".
+          k is the "growth constant".
           For the exponential function k is constant. However in real life scenarios,
-          like the virus outbreak, the exponential function is only approximation.
-          Thus this variable shows deviation from "exponentiality".
+          like the virus outbreak, the exponential function is only an approximation.
+          The real function is unknown, we don't know the time when the first infection occured,
+          the data isn't accurate and complete either.
+
+          Thus we defined the "growth factor" as rate of change of the
+          exponent of infections.
         </p>
       </MathJax.Provider>
     </div>
