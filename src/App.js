@@ -19,6 +19,7 @@ const data = [
   ['2020-01-26', 2744],
   ['2020-01-27', 4515],
   ['2020-01-28', 5974],
+  ['2020-01-29', 7711],
 ]
 
 const dataRest = [
@@ -31,6 +32,7 @@ const dataRest = [
   ['2020-01-26', 57],
   ['2020-01-27', 64],
   ['2020-01-28', 87],
+  ['2020-01-29', 106],
 ]
 
 function App() {
@@ -54,7 +56,14 @@ function App() {
       </p>
       <Main data={dataRest} />
       <MathJax.Provider>
-        <p className="Main-description">The forcast is calculated assuming number of cases follows exponential growth <MathJax.Node inline="true" formula="x(t) = e^{kt}"></MathJax.Node> where k is the "growth factor"</p>
+        <p className="Main-description">
+          The forcast is calculated assuming number of cases follows exponential
+          growth <MathJax.Node inline="true" formula="x(t) = e^{kt}"></MathJax.Node> where
+          k is the "growth factor".
+          For the exponential function k is constant. However in real life scenarios,
+          like the virus outbreak, the exponential function is only approximation.
+          Thus this variable shows deviation from "exponentiality".
+        </p>
       </MathJax.Provider>
     </div>
   );
