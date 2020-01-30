@@ -64,6 +64,7 @@ function App() {
   return (
     <div className="App">
       <h1>Monitoring the Wuhan virus spread pace</h1>
+      <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a>
 
       <h2>China</h2>
       <p>Source: <a target="_blank" rel="noopener noreferrer"
