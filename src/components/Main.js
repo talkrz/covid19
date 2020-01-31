@@ -8,11 +8,15 @@ function calculateExponent(data) {
     const diff = i === 0
       ? 0.0
       : Math.log(data[i][1]) - Math.log(data[i-1][1]);
+    const growth = i === 0
+      ? 0.0
+      : (data[i][1] - data[i-1][1]) / data[i-1][1] * 100;
     return [
       dataPoint[0], // date
       dataPoint[1], // number of cases
       exp, // exponent of function
       diff, // derivative of the exponent aka growth rate
+      growth, // growth in %
     ]
   })
 }
@@ -69,6 +73,7 @@ export default function Main({ data }) {
             <th className="Main-number">Confirmed cases</th>
             <th className="Main-number">Exponent</th>
             <th className="Main-number">Growth factor</th>
+            <th className="Main-number">Change</th>
           </tr>
         </thead>
       
@@ -79,6 +84,7 @@ export default function Main({ data }) {
               <td className="Main-number">{dataPoint[1]}</td>
               <td className="Main-number">{dataPoint[2].toFixed(3)}</td>
               <td className="Main-number">{dataPoint[3].toFixed(3)}</td>
+              <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
             </tr>
           ))}
         </tbody>
