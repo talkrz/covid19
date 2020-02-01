@@ -80,7 +80,10 @@ function App() {
           href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"
         >gisanddata.maps.arcgis.com
         </a>
+        <div style={{'font-size': '12px'}}>Latest day is updated based on wiki page,
+        and there is some divergence between these sources</div>
       </p>
+
 
       <Main data={dataRest} />
 
