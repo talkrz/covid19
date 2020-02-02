@@ -1,6 +1,6 @@
 [
   {
-    "Date (CST)": "2020.01.16",
+    "Date (CST)": "2020-01-16",
     "Hubei": 4,
     "Guangdong": "",
     "Beijing": "",
@@ -34,7 +34,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.17",
+    "Date (CST)": "2020-01-17",
     "Hubei": 17,
     "Guangdong": "",
     "Beijing": "",
@@ -68,7 +68,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.18",
+    "Date (CST)": "2020-01-18",
     "Hubei": 59,
     "Guangdong": "",
     "Beijing": "",
@@ -102,7 +102,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.19",
+    "Date (CST)": "2020-01-19",
     "Hubei": 77,
     "Guangdong": 1,
     "Beijing": "",
@@ -136,7 +136,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.20",
+    "Date (CST)": "2020-01-20",
     "Hubei": 72,
     "Guangdong": 13,
     "Beijing": 5,
@@ -170,7 +170,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.21",
+    "Date (CST)": "2020-01-21",
     "Hubei": 105,
     "Guangdong": 12,
     "Beijing": 5,
@@ -204,7 +204,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.22",
+    "Date (CST)": "2020-01-22",
     "Hubei": 69,
     "Guangdong": 6,
     "Beijing": 4,
@@ -238,7 +238,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.23",
+    "Date (CST)": "2020-01-23",
     "Hubei": 105,
     "Guangdong": 21,
     "Beijing": 12,
@@ -272,7 +272,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.24",
+    "Date (CST)": "2020-01-24",
     "Hubei": 180,
     "Guangdong": 25,
     "Beijing": 10,
@@ -306,7 +306,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.25",
+    "Date (CST)": "2020-01-25",
     "Hubei": 323,
     "Guangdong": 20,
     "Beijing": 15,
@@ -340,7 +340,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.26",
+    "Date (CST)": "2020-01-26",
     "Hubei": 371,
     "Guangdong": 48,
     "Beijing": 17,
@@ -374,7 +374,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.27",
+    "Date (CST)": "2020-01-27",
     "Hubei": 1291,
     "Guangdong": 42,
     "Beijing": 12,
@@ -408,7 +408,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.28",
+    "Date (CST)": "2020-01-28",
     "Hubei": 840,
     "Guangdong": 53,
     "Beijing": 11,
@@ -442,7 +442,7 @@
     "Tibet": ""
   },
   {
-    "Date (CST)": "2020.01.29",
+    "Date (CST)": "2020-01-29",
     "Hubei": 1032,
     "Guangdong": 70,
     "Beijing": 20,
@@ -476,7 +476,7 @@
     "Tibet": 1
   },
   {
-    "Date (CST)": "2020.01.30",
+    "Date (CST)": "2020-01-30",
     "Hubei": 1220,
     "Guangdong": 82,
     "Beijing": 21,
@@ -510,7 +510,7 @@
     "Tibet": 0
   },
   {
-    "Date (CST)": "2020.01.31",
+    "Date (CST)": "2020-01-31",
     "Hubei": 1347,
     "Guangdong": 142,
     "Beijing": 24,
@@ -527,7 +527,7 @@
     "Shanxi": 8,
     "Fujian": 24,
     "Liaoning": 20,
-    "Hainan": 13,
+    "Hainan": 8,
     "Anhui": 60,
     "Guizhou": 14,
     "Guangxi": 13,
@@ -539,8 +539,42 @@
     "Shaanxi": 14,
     "Xinjiang": 1,
     "Gansu": 6,
-    "Inner\nMongolia": 0,
+    "Inner\nMongolia": 3,
     "Qinghai": 1,
+    "Tibet": 0
+  },
+  {
+    "Date (CST)": "2020-02-01",
+    "Hubei": 1921,
+    "Guangdong": 69,
+    "Beijing": 27,
+    "Shanghai": 8,
+    "Zhejiang": 62,
+    "Tianjin": 8,
+    "Chongqing": 15,
+    "Jiangxi": 47,
+    "Shandong": 19,
+    "Henan": 71,
+    "Hunan": 64,
+    "Sichuan": 23,
+    "Yunnan": 8,
+    "Shanxi": 9,
+    "Fujian": 15,
+    "Liaoning": 1,
+    "Hainan": 6,
+    "Anhui": 43,
+    "Guizhou": 9,
+    "Guangxi": 11,
+    "Ningxia": 2,
+    "Hebei": 8,
+    "Jiangsu": 34,
+    "Jilin": 6,
+    "Heilongjiang": 15,
+    "Shaanxi": 15,
+    "Xinjiang": 2,
+    "Gansu": 5,
+    "Inner\nMongolia": 4,
+    "Qinghai": 2,
     "Tibet": 0
   }
 ]
