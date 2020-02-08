@@ -25,7 +25,7 @@ function prepareProvincesData(dataByProvince) {
 
         if (dayData[key] !== '') {
           result[key].push([
-            date, dayData[key],
+            date, parseInt(dayData[key].toString().replace(',', ''), 10),
           ]);
         }
       }
