@@ -72,7 +72,7 @@ function App() {
         >wikipedia.org
         </a>
         <div style={{'font-size': '12px'}}>Since 12 February 2020, numbers include clinical diagnoses in Hubei not previously included in official counts, based on medical imaging showing signs of pneumonia.
-        Currently this page does not include these nubers.</div>
+        Currently this page does not include these cases.</div>
       </p>
       <Main data={data} />
 
