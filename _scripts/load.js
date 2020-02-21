@@ -37,8 +37,7 @@ fetch(chinaCasesUrl)
       if (casesTds.length) {
         const numbers = casesTds.text().split('\n');
         const number = wikiExtractNumberFromTableCell(numbers[1] !== '' ? numbers[1] : numbers[0]);
-        //console.log('number: ', casesTds.text())
-        dataRow[1] = number; // yep, overwrite first one
+        dataRow[1] = number;
       }
       if (dataRow.length && dataRow[0]) {
         data.push(dataRow);
