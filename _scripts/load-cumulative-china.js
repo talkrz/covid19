@@ -21,7 +21,7 @@ function wikiExtractNumberFromTableCell(string) {
 fetch(chinaCasesUrl)
   .then(response => response.text())
   .then(text => {
-    const th = containsText(cheerio.load(text), 'th', 'COVID-19 cases in mainland China');
+    const th = containsText(cheerio.load(text), 'th', 'COVID-19 cases in China (mainland)');
     const table = th.parents('table');
     const rows = table.find('tr');
 
