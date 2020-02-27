@@ -33,12 +33,13 @@ fetch(chinaCasesUrl)
       if (dateSpan.length) {
         dataRow[0] = dateSpan.text();
       }
-      const casesTds = cheerio(this).find('td table td');
-      if (casesTds.length > 2) {
-        const numbers = casesTds.text().split('\n');
-        const number = wikiExtractNumberFromTableCell(numbers[2] !== '' ? numbers[2] : numbers[0]);
+      const casesTds = cheerio(this).find('td');
+      const tdsStrings = casesTds.text().split('\n').reverse();
+      if (tdsStrings.length > 1) {
+        const number = wikiExtractNumberFromTableCell(tdsStrings[0] ? tdsStrings[0] : tdsStrings[1]);
         dataRow[1] = number;
       }
+
       if (dataRow.length && dataRow[0]) {
         data.push(dataRow);
       }
