@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 
-const chinaCasesUrl = 'https://en.wikipedia.org/wiki/2019%E2%80%9320_coronavirus_outbreak';
+const chinaCasesUrl = 'https://en.wikipedia.org/wiki/Timeline_of_the_2019%E2%80%9320_coronavirus_outbreak';
 
 function containsText(cheerio, selector, text) {
   return cheerio(selector).filter(function() {
