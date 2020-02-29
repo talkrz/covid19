@@ -1,1 +1,1 @@
-https://2019ncov.now.sh/
+https://covid19.now.sh/

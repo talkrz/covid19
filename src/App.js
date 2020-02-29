@@ -63,19 +63,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Monitoring the Wuhan virus spread pace</h1>
+      <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
       <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a>
 
-      <h2>China</h2>
-      <p>Source: <a target="_blank" rel="noopener noreferrer"
-          href="https://en.wikipedia.org/wiki/Timeline_of_the_2019–20_Wuhan_coronavirus_outbreak"
-        >wikipedia.org
-        </a>
-        <div style={{'font-size': '12px'}}>Since 12 February 2020, numbers include clinical diagnoses in Hubei not previously included in official counts, based on medical imaging showing signs of pneumonia.</div>
-      </p>
-      <Main data={data} />
-
-      <h2>Rest of the world</h2>
+      <h2>All countries except mainland China</h2>
 
       <p>Source: <a target="_blank" rel="noopener noreferrer"
           href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"
@@ -85,8 +76,16 @@ function App() {
         and there is some divergence between these sources</div>
       </p>
 
-
       <Main data={dataRest} />
+
+      <h2>Mainland China</h2>
+      <p>Source: <a target="_blank" rel="noopener noreferrer"
+          href="https://en.wikipedia.org/wiki/Timeline_of_the_2019–20_Wuhan_coronavirus_outbreak"
+        >wikipedia.org
+        </a>
+        <div style={{'font-size': '12px'}}>Since 12 February 2020, numbers include clinical diagnoses in Hubei not previously included in official counts, based on medical imaging showing signs of pneumonia.</div>
+      </p>
+      <Main data={data} />
 
       <h2>China by provinces</h2>
       <div className="App-select-province">

@@ -1,9 +1,9 @@
 {
   "version": 2,
-  "name": "2019ncov",
+  "name": "covid19",
   "build": {
     "env": {
-      "REACT_APP_API_URL": "https://2019ncov.talkrz.now.sh"
+      "REACT_APP_API_URL": "https://covid19.talkrz.now.sh"
     }
   },
   "builds": [
