@@ -43,9 +43,16 @@ function prepareProvincesData(dataByProvince) {
       return newRow;
     })
 
+    let helperForZerosFiltering = false;
+    const cumulativeResultFilteredZeros = cumulativeResult.filter(dataRow => {
+      if (dataRow[1] !== 0) {
+        helperForZerosFiltering = true;
+      }
+      return dataRow[1] !== 0 || helperForZerosFiltering;
+    })
     resultArray.push({
       province,
-      data: cumulativeResult,
+      data: cumulativeResultFilteredZeros,
     })
   })
 
