@@ -71,25 +71,27 @@ export default function Main({ data }) {
   }, [data])
   return (
     <>
-      <table className="Main-table">
-        <thead>
-          <tr>
-            <th className="Main-date">Date</th>
-            <th className="Main-number">Confirmed cases</th>
-            <th className="Main-number">Change</th>
-          </tr>
-        </thead>
-      
-        <tbody>
-          {table.map(dataPoint => (
-            <tr key={dataPoint[0]}>
-              <td className="Main-date">{dataPoint[0]}</td>
-              <td className="Main-number">{dataPoint[1]}</td>
-              <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
+      <div className="Main-tableContainer">
+        <table className="Main-table">
+          <thead>
+            <tr>
+              <th className="Main-date">Date</th>
+              <th className="Main-number">Confirmed cases</th>
+              <th className="Main-number">Change</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {table.map(dataPoint => (
+              <tr key={dataPoint[0]}>
+                <td className="Main-date">{dataPoint[0]}</td>
+                <td className="Main-number">{dataPoint[1]}</td>
+                <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="Main-charts">
         <Chart label="Confirmed cases" chartData={chartDataCases} />
