@@ -23,7 +23,7 @@ function calculateExponent(data) {
 
 export default function Main({ data }) {
   const [table, setTable] = useState([]);
-  const [avgExp, setAvgExp] = useState(0.0);
+  const [avgGrowth, setAvgGrowth] = useState(0.0);
   const [predictedValue, setPredictedValue] = useState(0.0);
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
@@ -35,6 +35,10 @@ export default function Main({ data }) {
     const lastNElements = 2;
     const avgExponent = tableData.slice(-lastNElements).reduce((acc, curr) => {
       return acc + curr[3];
+    }, 0.0) / lastNElements;
+
+    const avgChange = tableData.slice(-lastNElements).reduce((acc, curr) => {
+      return acc + curr[4];
     }, 0.0) / lastNElements;
  
     const forecast = Math.pow(Math.E, Math.log(data[data.length - 1][1]) + avgExponent);
@@ -52,16 +56,17 @@ export default function Main({ data }) {
 
     setChartDataGrowth(tableData.map(dp => ({
       name: dp[0],
-      value: dp[3].toFixed(3)
+      value: dp[4]
     })).concat([
       {
         name: 'forecast',
         isForecast: true,
-        value: avgExponent.toFixed(3),
+        value: avgChange.toFixed(3),
       }
     ]));
+    
 
-    setAvgExp(avgExponent);
+    setAvgGrowth(avgChange);
     setPredictedValue(forecast)
   }, [data])
   return (
@@ -71,8 +76,6 @@ export default function Main({ data }) {
           <tr>
             <th className="Main-date">Date</th>
             <th className="Main-number">Confirmed cases</th>
-            <th className="Main-number">Exponent</th>
-            <th className="Main-number">Growth factor</th>
             <th className="Main-number">Change</th>
           </tr>
         </thead>
@@ -82,8 +85,6 @@ export default function Main({ data }) {
             <tr key={dataPoint[0]}>
               <td className="Main-date">{dataPoint[0]}</td>
               <td className="Main-number">{dataPoint[1]}</td>
-              <td className="Main-number">{dataPoint[2].toFixed(3)}</td>
-              <td className="Main-number">{dataPoint[3].toFixed(3)}</td>
               <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
             </tr>
           ))}
@@ -92,10 +93,10 @@ export default function Main({ data }) {
 
       <div className="Main-charts">
         <Chart label="Confirmed cases" chartData={chartDataCases} />
-        <Chart label="Growth factor" chartData={chartDataGrowth} />
+        <Chart label="Change" chartData={chartDataGrowth} />
       </div>
       <div className="Main-prediction">
-        <div>Avg growth factor: {avgExp.toFixed(3)}</div>
+        <div>Avg change: {avgGrowth.toFixed(3)}%</div>
         <div>Predicted next value: {predictedValue.toFixed()}</div>
       </div>
       <hr className="Main-divider"></hr>
