@@ -85,7 +85,7 @@ export default function Main({ data }) {
             {table.map(dataPoint => (
               <tr key={dataPoint[0]}>
                 <td className="Main-date">{dataPoint[0]}</td>
-                <td className="Main-number">{dataPoint[1]}</td>
+                <td className="Main-number">{dataPoint[1].toLocaleString()}</td>
                 <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
               </tr>
             ))}
