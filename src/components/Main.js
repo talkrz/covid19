@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Chart from './Chart';
 import './Main.css';
 
-function calculateExponent(data) {
+function calculateExponent(data, since) {
   return data.map((dataPoint, i) => {
     const exp = Math.log(dataPoint[1]);
     const diff = i === 0
@@ -21,7 +21,7 @@ function calculateExponent(data) {
   })
 }
 
-export default function Main({ data }) {
+export default function Main({ data, since }) {
   const [table, setTable] = useState([]);
   const [avgGrowth, setAvgGrowth] = useState(0.0);
   const [predictedValue, setPredictedValue] = useState(0.0);
@@ -29,7 +29,18 @@ export default function Main({ data }) {
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
 
   useEffect(() => {
-    const tableData = calculateExponent(data);
+    const fixedDateData = data.map(dp => {
+      const date = new Date(dp[0]);
+      return [
+        // omg
+        date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2),
+        dp[1]
+      ]
+    }).filter(dp => {
+      return since === null || dp[0] > since;
+    });
+
+    const tableData = calculateExponent(fixedDateData);
     setTable(tableData);
 
     const lastNElements = 2;
@@ -41,9 +52,9 @@ export default function Main({ data }) {
       return acc + curr[4];
     }, 0.0) / lastNElements;
  
-    const forecast = Math.pow(Math.E, Math.log(data[data.length - 1][1]) + avgExponent);
-    
-    setChartDataCases(data.map(dp => ({
+    const forecast = Math.pow(Math.E, Math.log(fixedDateData[fixedDateData.length - 1][1]) + avgExponent);
+  
+    setChartDataCases(fixedDateData.map(dp => ({
       name: dp[0],
       value: dp[1]
     })).concat([
@@ -64,11 +75,10 @@ export default function Main({ data }) {
         value: avgChange.toFixed(3),
       }
     ]));
-    
 
     setAvgGrowth(avgChange);
     setPredictedValue(forecast)
-  }, [data])
+  }, [data, since])
   return (
     <>
       <div className="Main-tableContainer">

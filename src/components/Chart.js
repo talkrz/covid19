@@ -8,7 +8,7 @@ import useDimensions from '../hooks/useDimensions';
 export default function Chart({label, chartData}) {
   const contentRef = useRef();
   const [width, height] = useDimensions(contentRef);
-  console.log(chartData)
+
   return (
     <div className="Chart" ref={contentRef}>
     <BarChart

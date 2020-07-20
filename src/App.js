@@ -1,16 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Main from './components/Main';
 import data from './data/data.json';
 
 function App() {
+  const [since, setSince] = useState(null)
 
+  const changeSinceHandler = (e) => {
+    const date = new Date();
+
+    switch(e.target.value) {
+      case '1w':
+        date.setDate(date.getDate() - 7);
+        break;
+      case '1m':
+        date.setMonth(date.getMonth() - 1);
+        break;
+      case '2m':
+        date.setMonth(date.getMonth() - 2);
+        break;
+      case '3m':
+        date.setMonth(date.getMonth() - 3);
+        break;
+      case '6m':
+        date.setMonth(date.getMonth() - 6);
+        break;
+      default:
+        date.setFullYear(2018);
+    }
+    setSince(date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2));
+  }
   return (
     <div className="App">
       <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
       <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a>
 
+      <div className="App-filters">
+        <label>Display data from:</label>
+        <select onChange={changeSinceHandler}>
+          <option value="beginning">all dates</option>
+          <option value="1w">last week</option>
+          <option value="1m">last month</option>
+          <option value="2m">last 2 months</option>
+          <option value="3m">last 3 months</option>
+          <option value="6m">last 6 months</option>
+          <option value="1y">last year</option>
+        </select>
+      </div>
       <h2>Total cases</h2>
 
       <p>Source: <a target="_blank" rel="noopener noreferrer"
@@ -19,7 +56,7 @@ function App() {
         </a>
       </p>
 
-      <Main data={data['total'].confirmed} />
+      <Main data={data['total'].confirmed} since={since} />
 
       <h2>Total deaths</h2>
 
@@ -28,7 +65,7 @@ function App() {
         >gisanddata.maps.arcgis.com
         </a>
       </p>
-      <Main data={data['total'].deaths} />
+      <Main data={data['total'].deaths} since={since} />
     </div>
   );
 }
