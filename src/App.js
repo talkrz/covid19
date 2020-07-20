@@ -25,6 +25,9 @@ function App() {
       case '3m':
         date.setMonth(date.getMonth() - 3);
         break;
+      case '4m':
+        date.setMonth(date.getMonth() - 4);
+        break;
       case '6m':
         date.setMonth(date.getMonth() - 6);
         break;
@@ -56,6 +59,7 @@ function App() {
             <option value="1m">last month</option>
             <option value="2m">last 2 months</option>
             <option value="3m">last 3 months</option>
+            <option value="4m">last 4 months</option>
             <option value="6m">last 6 months</option>
             <option value="1y">last year</option>
           </select>
