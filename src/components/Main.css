@@ -51,7 +51,7 @@ table.Main-table td {
   border-bottom: 1px solid #eee;
 }
 
-table.Main-table tr:nth-child(odd) {
+table.Main-table tr:nth-child(even) {
   background: #fafafa;
 }
 
