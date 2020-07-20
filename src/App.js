@@ -3,6 +3,7 @@ import './App.css';
 
 import Main from './components/Main';
 import data from './data/data.json';
+import dateFormat from './functions/dateFormat';
 
 function App() {
   const [since, setSince] = useState(null)
@@ -29,7 +30,7 @@ function App() {
       default:
         date.setFullYear(2018);
     }
-    setSince(date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2));
+    setSince(dateFormat(date));
   }
   return (
     <div className="App">
