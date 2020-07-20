@@ -57,7 +57,7 @@ function App() {
         </a>
       </p>
 
-      <Main data={data['total'].confirmed} since={since} />
+      <Main data={data['total'].confirmed} since={since} label="Confirmed cases" />
 
       <h2>Total deaths</h2>
 
@@ -66,7 +66,7 @@ function App() {
         >gisanddata.maps.arcgis.com
         </a>
       </p>
-      <Main data={data['total'].deaths} since={since} />
+      <Main data={data['total'].deaths} since={since} label="Deaths" />
     </div>
   );
 }

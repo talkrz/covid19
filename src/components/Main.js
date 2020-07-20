@@ -4,7 +4,7 @@ import './Main.css';
 import dateFormat from '../functions/dateFormat';
 import parseDate from '../functions/parseDate';
 
-export default function Main({ data, since }) {
+export default function Main({ data, since, label }) {
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
 
@@ -82,7 +82,7 @@ export default function Main({ data, since }) {
       </div>
 
       <div className="Main-charts">
-        <Chart label="Confirmed cases" chartData={chartDataCases} />
+        <Chart label={label} chartData={chartDataCases} />
         <Chart label="Change" chartData={chartDataGrowth} />
       </div>
       <div className="Main-prediction">
