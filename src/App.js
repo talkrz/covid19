@@ -48,7 +48,12 @@ function App() {
   return (
     <div className="App">
       <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
-      <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a>
+      <div class="App-source">Source code: <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a></div>
+      <div class="App-source">COVID-19 data source: <a target="_blank" rel="noopener noreferrer"
+          href="https://github.com/CSSEGISandData/COVID-19"
+        >JHU CSSE COVID-19 Data
+        </a>
+      </div>
 
       <div className="App-filters">
         <div>
@@ -75,23 +80,13 @@ function App() {
         </div>
       </div>
       <h2>Total cases</h2>
-
-      <p>Source: <a target="_blank" rel="noopener noreferrer"
-          href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"
-        >gisanddata.maps.arcgis.com
-        </a>
-      </p>
-
       <Main data={data[country].confirmed} since={since} label="Confirmed cases" />
 
       <h2>Total deaths</h2>
-
-      <p>Source: <a target="_blank" rel="noopener noreferrer"
-          href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6"
-        >gisanddata.maps.arcgis.com
-        </a>
-      </p>
       <Main data={data[country].deaths} since={since} label="Deaths" />
+
+
+
     </div>
   );
 }

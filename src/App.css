@@ -53,3 +53,8 @@
 .App-filters label {
   margin-right: 10px
 }
+
+.App a {
+  color: #888;
+  text-decoration: none;
+}
