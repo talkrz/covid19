@@ -43,6 +43,11 @@
 
 .App-filters {
   margin: 20px 0;
+  display: flex;
+}
+
+.App-filters div {
+  margin-right: 20px;
 }
 
 .App-filters label {

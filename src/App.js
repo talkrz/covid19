@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './App.css';
 
 import Main from './components/Main';
@@ -7,6 +7,7 @@ import dateFormat from './functions/dateFormat';
 
 function App() {
   const [since, setSince] = useState(null)
+  const [country, setCountry] = useState('total');
 
   const changeSinceHandler = (e) => {
     const date = new Date();
@@ -32,22 +33,42 @@ function App() {
     }
     setSince(dateFormat(date));
   }
+
+  const changeCountryHandler = (e) => {
+    setCountry(e.target.value);
+  }
+
+  const countries = useMemo(() => {
+    return Object.keys(data).sort();
+  }, []);
+
   return (
     <div className="App">
       <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
       <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a>
 
       <div className="App-filters">
-        <label>Display data from:</label>
-        <select onChange={changeSinceHandler}>
-          <option value="beginning">all dates</option>
-          <option value="1w">last week</option>
-          <option value="1m">last month</option>
-          <option value="2m">last 2 months</option>
-          <option value="3m">last 3 months</option>
-          <option value="6m">last 6 months</option>
-          <option value="1y">last year</option>
-        </select>
+        <div>
+          <label>Display data from:</label>
+          <select onChange={changeSinceHandler}>
+            <option value="beginning">all dates</option>
+            <option value="1w">last week</option>
+            <option value="1m">last month</option>
+            <option value="2m">last 2 months</option>
+            <option value="3m">last 3 months</option>
+            <option value="6m">last 6 months</option>
+            <option value="1y">last year</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Location:</label>
+          <select onChange={changeCountryHandler} value={country}>
+            {countries.map((countryKey) => (
+              <option key={countryKey} value={countryKey}>{countryKey}</option>
+            ))}
+          </select>
+        </div>
       </div>
       <h2>Total cases</h2>
 
@@ -57,7 +78,7 @@ function App() {
         </a>
       </p>
 
-      <Main data={data['total'].confirmed} since={since} label="Confirmed cases" />
+      <Main data={data[country].confirmed} since={since} label="Confirmed cases" />
 
       <h2>Total deaths</h2>
 
@@ -66,7 +87,7 @@ function App() {
         >gisanddata.maps.arcgis.com
         </a>
       </p>
-      <Main data={data['total'].deaths} since={since} label="Deaths" />
+      <Main data={data[country].deaths} since={since} label="Deaths" />
     </div>
   );
 }
