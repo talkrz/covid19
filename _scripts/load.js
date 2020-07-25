@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { csvRead } = require('./csvRead');
+const { csvRead } = require('./functions/csvRead');
 
 const dailyReportsUrl = './data_sources/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports';
 
@@ -21,19 +21,19 @@ function discoverInputDataColumns(data) {
   const recoveredColumnName = 'Recovered';
 
   // country/region column name varies across different files
-  let topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName);
-  if (topLocationIndex === -1) {
-    topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName2);
+  let countryNameIndex = data[0].findIndex(columnName => columnName === topLocationColumnName);
+  if (countryNameIndex === -1) {
+    countryNameIndex = data[0].findIndex(columnName => columnName === topLocationColumnName2);
   }
   const confirmedIndex = data[0].findIndex(columnName => columnName === confirmedColumnName);
   const deathsIndex = data[0].findIndex(columnName => columnName === deathsColumnName);
   const recoveredIndex = data[0].findIndex(columnName => columnName === recoveredColumnName);
 
-  return [topLocationIndex, confirmedIndex, deathsIndex, recoveredIndex];
+  return [countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex];
 }
 
 function appendFile(filename, data) {
-  const [ topLocationIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
+  const [ countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
 
   const partialResult = {};
 
@@ -42,18 +42,18 @@ function appendFile(filename, data) {
       return;
     }
 
-    const key = dataRow[topLocationIndex];
+    const countryName = dataRow[countryNameIndex];
 
-    if (partialResult[key] === undefined) {
-      partialResult[key] = [
+    if (partialResult[countryName] === undefined) {
+      partialResult[countryName] = [
         parseCell(dataRow[confirmedIndex]),
         parseCell(dataRow[deathsIndex]),
         parseCell(dataRow[recoveredIndex])
       ];
     } else {
-      partialResult[key][0] += parseCell(dataRow[confirmedIndex]);
-      partialResult[key][1] += parseCell(dataRow[deathsIndex]);
-      partialResult[key][2] += parseCell(dataRow[recoveredIndex]);
+      partialResult[countryName][0] += parseCell(dataRow[confirmedIndex]);
+      partialResult[countryName][1] += parseCell(dataRow[deathsIndex]);
+      partialResult[countryName][2] += parseCell(dataRow[recoveredIndex]);
     }
 
     if (partialResult['total'] === undefined) {
@@ -71,32 +71,32 @@ function appendFile(filename, data) {
 
   const date = filename.substring(0, filename.indexOf('.'));
 
-  Object.keys(partialResult).forEach(key => {
-    if (result[key] === undefined) {
-      result[key] = {
+  Object.keys(partialResult).forEach(countryName => {
+    if (result[countryName] === undefined) {
+      result[countryName] = {
         confirmed: [],
         deaths: [],
         recovered: [],
       }
     }
-    result[key].confirmed.push([date, partialResult[key][0]]);
-    result[key].deaths.push([date, partialResult[key][1]]);
-    result[key].recovered.push([date, partialResult[key][2]]);
+    result[countryName].confirmed.push([date, partialResult[countryName][0]]);
+    result[countryName].deaths.push([date, partialResult[countryName][1]]);
+    result[countryName].recovered.push([date, partialResult[countryName][2]]);
   })
 }
 
 function load() {
-  fs.readdir(path.resolve(dailyReportsUrl), async function(err, items) {
+  fs.readdir(path.resolve(dailyReportsUrl), async function(err, filenames) {
 
     const excludeFiles = ['README.md', '.gitignore'];
   
-    for (const file of items) {
-      if (excludeFiles.includes(file)) {
+    for (const filename of filenames) {
+      if (excludeFiles.includes(filename)) {
         continue;
       }
 
-      const data = await csvRead(dailyReportsUrl + '/' + file);
-      appendFile(file, data);
+      const data = await csvRead(dailyReportsUrl + '/' + filename);
+      appendFile(filename, data);
     }
     console.log(JSON.stringify(result, null, '  '))
   });
