@@ -20,7 +20,7 @@ function discoverInputDataColumns(data) {
   const deathsColumnName = 'Deaths';
   const recoveredColumnName = 'Recovered';
 
-  // country/region columns varies across different files
+  // country/region column name varies across different files
   let topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName);
   if (topLocationIndex === -1) {
     topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName2);
