@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const R = require('ramda');
 const { csvRead } = require('./functions/csvRead');
 
 const dailyReportsUrl = './data_sources/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports';
@@ -32,42 +33,26 @@ function discoverInputDataColumns(data) {
   return [countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex];
 }
 
+
+
 function appendFile(filename, data) {
   const [ countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
 
-  const partialResult = {};
+  // remove header element leaving only data rows
+  data.shift();
 
-  data.forEach((dataRow, index) => {
-    if (index === 0) {
-      return;
-    }
+  const sumCasesNumbers = (acc, inputDataRow) => {
+    acc[0] += parseCell(inputDataRow[confirmedIndex]);
+    acc[1] += parseCell(inputDataRow[deathsIndex]);
+    acc[2] += parseCell(inputDataRow[recoveredIndex]);
+    return acc;
+  }
 
-    const countryName = dataRow[countryNameIndex];
+  const countryName = (inputDataRow) => (inputDataRow[countryNameIndex]);
 
-    if (partialResult[countryName] === undefined) {
-      partialResult[countryName] = [
-        parseCell(dataRow[confirmedIndex]),
-        parseCell(dataRow[deathsIndex]),
-        parseCell(dataRow[recoveredIndex])
-      ];
-    } else {
-      partialResult[countryName][0] += parseCell(dataRow[confirmedIndex]);
-      partialResult[countryName][1] += parseCell(dataRow[deathsIndex]);
-      partialResult[countryName][2] += parseCell(dataRow[recoveredIndex]);
-    }
-
-    if (partialResult['total'] === undefined) {
-      partialResult['total'] = [
-        parseCell(dataRow[confirmedIndex]),
-        parseCell(dataRow[deathsIndex]),
-        parseCell(dataRow[recoveredIndex])
-      ];
-    } else {
-      partialResult['total'][0] += parseCell(dataRow[confirmedIndex]);
-      partialResult['total'][1] += parseCell(dataRow[deathsIndex]);
-      partialResult['total'][2] += parseCell(dataRow[recoveredIndex]);
-    }
-  });
+  const byCountryPartialResult = R.reduceBy(sumCasesNumbers, [0, 0, 0], countryName, data);
+  const totalPartialResult = R.reduce(sumCasesNumbers, [0, 0, 0], data);
+  const partialResult = { ...byCountryPartialResult, total: totalPartialResult };
 
   const date = filename.substring(0, filename.indexOf('.'));
 
@@ -97,6 +82,8 @@ function load() {
 
       const data = await csvRead(dailyReportsUrl + '/' + filename);
       appendFile(filename, data);
+
+      process.exit(1)
     }
     console.log(JSON.stringify(result, null, '  '))
   });
