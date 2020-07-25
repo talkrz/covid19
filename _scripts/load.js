@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const R = require('ramda');
+const { reduceBy, reduce } = require('ramda');
 const { csvRead } = require('./functions/csvRead');
 
 const dailyReportsUrl = './data_sources/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports';
@@ -50,8 +50,8 @@ function appendFile(filename, data) {
 
   const countryName = (inputDataRow) => (inputDataRow[countryNameIndex]);
 
-  const byCountryPartialResult = R.reduceBy(sumCasesNumbers, [0, 0, 0], countryName, data);
-  const totalPartialResult = R.reduce(sumCasesNumbers, [0, 0, 0], data);
+  const byCountryPartialResult = reduceBy(sumCasesNumbers, [0, 0, 0], countryName, data);
+  const totalPartialResult = reduce(sumCasesNumbers, [0, 0, 0], data);
   const partialResult = { ...byCountryPartialResult, total: totalPartialResult };
 
   const date = filename.substring(0, filename.indexOf('.'));
@@ -82,8 +82,6 @@ function load() {
 
       const data = await csvRead(dailyReportsUrl + '/' + filename);
       appendFile(filename, data);
-
-      process.exit(1)
     }
     console.log(JSON.stringify(result, null, '  '))
   });
