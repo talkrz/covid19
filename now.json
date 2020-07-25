@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "name": "covid19",
-  "build": {
-    "env": {
-      "REACT_APP_API_URL": "https://covid19.talkrz.now.sh"
-    }
-  },
   "builds": [
       { "src": "package.json", "use": "@now/static-build", "config": { "distDir": "build" } }
   ],
