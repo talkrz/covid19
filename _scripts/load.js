@@ -33,8 +33,6 @@ function discoverInputDataColumns(data) {
   return [countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex];
 }
 
-
-
 function appendFile(filename, data) {
   const [ countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
 
@@ -67,7 +65,7 @@ function appendFile(filename, data) {
     result[countryName].confirmed.push([date, partialResult[countryName][0]]);
     result[countryName].deaths.push([date, partialResult[countryName][1]]);
     result[countryName].recovered.push([date, partialResult[countryName][2]]);
-  })
+  });
 }
 
 function load() {

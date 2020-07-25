@@ -35,8 +35,6 @@
     ]
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.3",
-    "node-fetch": "^2.6.0",
     "ramda": "^0.27.0"
   }
 }
