@@ -1,26 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const CsvReadableStream = require('csv-reader');
+const { csvRead } = require('./csvRead');
 
 const dailyReportsUrl = './data_sources/COVID-19/csse_covid_19_data/csse_covid_19_daily_reports';
 
 const result = {};
-
-function csvRead(filename) {
-  const inputStream = fs.createReadStream(filename, 'utf8');
- 
-  const result = [];
-  inputStream
-      .pipe(new CsvReadableStream({ parseNumbers: false }))
-      .on('data', function (row) {
-          result.push(row);
-      });
-  return new Promise((resolve) => {
-    inputStream.on('end', function () {
-      resolve(result);
-    });
-  });
-}
 
 function parseCell(value) {
   if (value === '') {
@@ -77,8 +61,7 @@ function appendFile(filename, data) {
       partialResult['total'][1] += parseCell(dataRow[deathsIndex]);
       partialResult['total'][2] += parseCell(dataRow[recoveredIndex]);
     }
-  })
-
+  });
 
   const date = filename.substring(0, filename.indexOf('.'));
 
