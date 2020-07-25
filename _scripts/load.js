@@ -13,13 +13,14 @@ function parseCell(value) {
   return parseInt(value, 10);
 }
 
-function appendFile(filename, data) {
+function discoverInputDataColumns(data) {
   const topLocationColumnName = 'Country/Region';
   const topLocationColumnName2 = 'Country_Region';
   const confirmedColumnName = 'Confirmed';
   const deathsColumnName = 'Deaths';
   const recoveredColumnName = 'Recovered';
 
+  // country/region columns varies across different files
   let topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName);
   if (topLocationIndex === -1) {
     topLocationIndex = data[0].findIndex(columnName => columnName === topLocationColumnName2);
@@ -28,6 +29,11 @@ function appendFile(filename, data) {
   const deathsIndex = data[0].findIndex(columnName => columnName === deathsColumnName);
   const recoveredIndex = data[0].findIndex(columnName => columnName === recoveredColumnName);
 
+  return [topLocationIndex, confirmedIndex, deathsIndex, recoveredIndex];
+}
+
+function appendFile(filename, data) {
+  const [ topLocationIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
 
   const partialResult = {};
 
