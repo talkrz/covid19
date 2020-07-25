@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "data:init": "mkdir data_sources && cd data_sources && git clone https://github.com/CSSEGISandData/COVID-19.git",
+    "data:init": "_scripts/init.sh",
     "data:update": "_scripts/load.sh"
   },
   "eslintConfig": {
