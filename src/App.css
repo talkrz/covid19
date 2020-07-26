@@ -44,6 +44,13 @@
 .App-filters {
   margin: 20px 0;
   display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 768px) {
+  .App-filters {
+    flex-direction: row;
+  }
 }
 
 .App-filters div {

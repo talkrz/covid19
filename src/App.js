@@ -120,8 +120,8 @@ function App() {
       <h2>Deaths ({country})</h2>
       <Main data={data[country].deaths} since={since} label="Deaths" />
 
+      <h2>Countries with the biggest growth</h2>
       <div className="App-countries-biggest-change">
-        <h2>Countries with the biggest growth</h2>
         {biggestChangeCountries.map((data, i) => (
           <div key={data[0]}>
             {i+1}. <a onClick={clickCountryHandler(data[0])}>
