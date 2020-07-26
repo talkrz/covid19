@@ -58,3 +58,18 @@
   color: #888;
   text-decoration: none;
 }
+
+.App-countries-biggest-change {
+  text-align: left;
+}
+
+.App-countries-biggest-change a {
+  color: #000;
+}
+
+.App-countries-biggest-change a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+
+}
+

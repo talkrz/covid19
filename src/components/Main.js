@@ -64,7 +64,7 @@ export default function Main({ data, since, label }) {
           <thead>
             <tr>
               <th className="Main-date">Date</th>
-              <th className="Main-number">Confirmed cases</th>
+              <th className="Main-number">{label}</th>
               <th className="Main-number">Change</th>
             </tr>
           </thead>
@@ -100,7 +100,8 @@ function calculateGrowth(data) {
     const diff = i === 0
       ? 0.0
       : Math.log(data[i][1]) - Math.log(data[i-1][1]);
-    const growth = i === 0
+
+    const growth = (i === 0 || data[i-1][1] === 0)
       ? 0.0
       : (data[i][1] - data[i-1][1]) / data[i-1][1] * 100;
     return [
