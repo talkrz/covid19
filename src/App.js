@@ -5,6 +5,7 @@ import Main from './components/Main';
 import data from './data/data.json';
 import excludeCountries from './data/excludeCountries.json';
 import dateFormat from './functions/dateFormat';
+import CountryList from './components/CountryList';
 
 
 
@@ -43,33 +44,6 @@ function App() {
   const changeCountryHandler = (e) => {
     setCountry(e.target.value);
   }
-
-  const clickCountryHandler = (country) => {
-    return () => setCountry(country);
-  }
-
-  const biggestChangeCountries = useMemo(() => {
-    const countriesByChange = [];
-    
-    Object.keys(data).forEach((countryName) => {
-      const dataSeriesNumber = data[countryName].deaths.length;
-      if (dataSeriesNumber < 2 || excludeCountries.includes(countryName)) {
-        return;
-      }
-      const last = data[countryName].confirmed[dataSeriesNumber - 1][1];
-      const previous = data[countryName].confirmed[dataSeriesNumber - 2][1];
-      const change = (last === 0)
-        ? 0.0
-        : (last - previous) / previous * 100;
-
-        if (change >= 2.0) {
-          countriesByChange.push([countryName, change]);
-        }
-    });
-
-    countriesByChange.sort((a, b) => (b[1] - a[1]));
-    return countriesByChange;
-  }, []);
 
   const countries = useMemo(() => {
     return Object.keys(data)
@@ -120,18 +94,45 @@ function App() {
       <h2>Deaths ({country})</h2>
       <Main data={data[country].deaths} since={since} label="Deaths" />
 
-      <h2>Countries with the biggest growth</h2>
-      <div className="App-countries-biggest-change">
-        {biggestChangeCountries.map((data, i) => (
-          <div key={data[0]}>
-            {i+1}. <a onClick={clickCountryHandler(data[0])}>
-              {data[0]}
-            </a> {data[1].toFixed(1)} %
-          </div>
+      <CountryList
+        label="Countries with the biggest cases change"
+        data={data}
+        dataSeriesKey="confirmed"
+        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
+        formatter={v => v.toLocaleString() + ' cases'}
+        setCountry={setCountry}
+        excludeCountries={excludeCountries}
+      />
 
-        ))}
-      </div>
+      <CountryList
+        label="Countries with the biggest growth"
+        data={data}
+        dataSeriesKey="confirmed"
+        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
+        formatter={v => v.toFixed(1).toLocaleString() + ' %'}
+        setCountry={setCountry}
+        excludeCountries={excludeCountries}
+      />
 
+      <CountryList
+        label="Countries with the biggest deaths change"
+        data={data}
+        dataSeriesKey="deaths"
+        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
+        formatter={v => v.toLocaleString() + ' deaths'}
+        setCountry={setCountry}
+        excludeCountries={excludeCountries}
+      />
+
+      <CountryList
+        label="Countries with the biggest deaths growth"
+        data={data}
+        dataSeriesKey="deaths"
+        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
+        formatter={v => v.toFixed(1).toLocaleString() + ' %'}
+        setCountry={setCountry}
+        excludeCountries={excludeCountries}
+      />
     </div>
   );
 }

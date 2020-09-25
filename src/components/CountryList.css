@@ -1,0 +1,13 @@
+.CountryList-biggest-change {
+  text-align: left;
+}
+
+.CountryList-biggest-change a {
+  color: #000;
+}
+
+.CountryList-biggest-change a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+
+}

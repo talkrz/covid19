@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Label,
 } from 'recharts';
@@ -9,12 +9,20 @@ export default function Chart({label, chartData}) {
   const contentRef = useRef();
   const [width, height] = useDimensions(contentRef);
 
+  const processedChartData = useMemo(() => {
+    return chartData.map(dp => {
+      const copy = { ...dp };
+      copy.value = dp.value < 0 ? 0.0 : dp.value; // ignore negative values!
+      return copy; 
+    });
+  }, [chartData]);
+
   return (
     <div className="Chart" ref={contentRef}>
     <BarChart
       width={width}
       height={height}
-      data={chartData}
+      data={processedChartData}
       margin={{
         top: 40, right: 20, left: 0, bottom: 40,
       }}
