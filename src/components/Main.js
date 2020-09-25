@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Chart from './Chart';
 import './Main.css';
+import '../commonStyles/table.css';
 import dateFormat from '../functions/dateFormat';
 import parseDate from '../functions/parseDate';
 
@@ -45,7 +46,7 @@ export default function Main({ data, since, label }) {
         <Chart label="Change in %" chartData={chartDataGrowth} />
       </div>
       <div className="Main-tableContainer">
-        <table className="Main-table">
+        <table className="beautiful-table">
           <thead>
             <tr>
               <th className="Main-date">Date</th>

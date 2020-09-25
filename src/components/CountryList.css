@@ -1,13 +1,12 @@
-.CountryList-biggest-change {
+.CountryList-name {
   text-align: left;
 }
 
-.CountryList-biggest-change a {
-  color: #000;
+.CountryList-number {
+  text-align: right;
 }
 
-.CountryList-biggest-change a:hover {
+.CountryList-set-country {
   text-decoration: underline;
   cursor: pointer;
-
 }

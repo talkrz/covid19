@@ -19,41 +19,6 @@
   overflow-y: scroll;
 }
 
-table.Main-table {
-  border-collapse: collapse;
-  font-size: 12px;
-  width: 100%;
-}
-
-table.Main-table td, table.Main-table th {
-  padding: 5px 10px;
-  margin: 0;
-}
-
-@media only screen and (min-width: 768px) {
-  table.Main-table {
-    font-size: 16px;
-    width: auto;
-  }
-  table.Main-table td, table.Main-table th {
-    padding: 5px 20px;
-    margin: 0;
-  }
-}
-
-table.Main-table th {
-  border-bottom: 1px solid #ddd;
-  background: #fafafa;
-}
-
-table.Main-table td {
-  border-bottom: 1px solid #eee;
-}
-
-table.Main-table tr:nth-child(even) {
-  background: #fafafa;
-}
-
 .Main-number {
   text-align: right;
 }

@@ -99,7 +99,7 @@ function App() {
         data={data}
         dataSeriesKey="confirmed"
         calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
-        formatter={v => v.toLocaleString() + ' cases'}
+        formatter={v => v.toLocaleString()}
         setCountry={setCountry}
         excludeCountries={excludeCountries}
       />
@@ -109,7 +109,7 @@ function App() {
         data={data}
         dataSeriesKey="confirmed"
         calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
-        formatter={v => v.toFixed(1).toLocaleString() + ' %'}
+        formatter={v => v.toFixed(1).toLocaleString() + '%'}
         setCountry={setCountry}
         excludeCountries={excludeCountries}
       />
@@ -119,7 +119,7 @@ function App() {
         data={data}
         dataSeriesKey="deaths"
         calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
-        formatter={v => v.toLocaleString() + ' deaths'}
+        formatter={v => v.toLocaleString()}
         setCountry={setCountry}
         excludeCountries={excludeCountries}
       />
@@ -129,7 +129,7 @@ function App() {
         data={data}
         dataSeriesKey="deaths"
         calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
-        formatter={v => v.toFixed(1).toLocaleString() + ' %'}
+        formatter={v => v.toFixed(1).toLocaleString() + '%'}
         setCountry={setCountry}
         excludeCountries={excludeCountries}
       />
