@@ -4,46 +4,14 @@ import './App.css';
 import Main from './components/Main';
 import data from './data/data.json';
 import excludeCountries from './data/excludeCountries.json';
-import dateFormat from './functions/dateFormat';
 import CountryList from './components/CountryList';
-
-
+import DateSelector from './components/DateSelector';
+import CountrySelector from './components/CountrySelector';
 
 function App() {
   const [since, setSince] = useState(null)
   const [country, setCountry] = useState('total');
 
-  const changeSinceHandler = (e) => {
-    const date = new Date();
-
-    switch(e.target.value) {
-      case '1w':
-        date.setDate(date.getDate() - 7);
-        break;
-      case '1m':
-        date.setMonth(date.getMonth() - 1);
-        break;
-      case '2m':
-        date.setMonth(date.getMonth() - 2);
-        break;
-      case '3m':
-        date.setMonth(date.getMonth() - 3);
-        break;
-      case '4m':
-        date.setMonth(date.getMonth() - 4);
-        break;
-      case '6m':
-        date.setMonth(date.getMonth() - 6);
-        break;
-      default:
-        date.setFullYear(2018);
-    }
-    setSince(dateFormat(date));
-  }
-
-  const changeCountryHandler = (e) => {
-    setCountry(e.target.value);
-  }
 
   const countries = useMemo(() => {
     return Object.keys(data)
@@ -62,30 +30,8 @@ function App() {
       </div>
 
       <div className="App-filters">
-        <div>
-          <label>Display data from:</label>
-          <select onChange={changeSinceHandler}>
-            <option value="beginning">all dates</option>
-            <option value="1w">last week</option>
-            <option value="1m">last month</option>
-            <option value="2m">last 2 months</option>
-            <option value="3m">last 3 months</option>
-            <option value="4m">last 4 months</option>
-            <option value="6m">last 6 months</option>
-            <option value="1y">last year</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Location:</label>
-          <select onChange={changeCountryHandler} value={country}>
-            {countries.map((countryKey) => (
-              <option key={countryKey} value={countryKey}>{countryKey}</option>
-            ))}
-          </select>
-        </div>
-
-
+        <DateSelector onDateSelected={setSince} />
+        <CountrySelector onCountrySelected={setCountry} country={country} countries={countries} />
       </div>
 
       <h2>Confirmed cases ({country})</h2>

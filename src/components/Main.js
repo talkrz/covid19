@@ -18,9 +18,6 @@ export default function Main({ data, since, label }) {
       .filter(dateSince(since));
   }, [data, since]);
 
-
-  
-
   useEffect(() => {
     setChartDataCases(visibleDataSeries.map(dp => ({
       name: dp[0],
@@ -66,8 +63,6 @@ export default function Main({ data, since, label }) {
           </tbody>
         </table>
       </div>
-
-
 
       <hr className="Main-divider"></hr>
     </>
