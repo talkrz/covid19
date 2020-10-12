@@ -40,10 +40,10 @@ export default function Chart({label, chartData}) {
       <Bar dataKey="value" fill="#8884d8">
       {
         chartData.map((entry, index) => {
-          //const date = new Date(entry.name);
-          //const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+          const date = new Date(entry.name);
+          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
           return (
-          <Cell cursor="pointer" fill={isWeekend ? /*'#82ca9d'*/ '#8884d8' : '#8884d8'} key={`cell-${index}`} />
+          <Cell cursor="pointer" fill={isWeekend ? '#8884d8' : '#8884d8'} key={`cell-${index}`} />
         )})
       }
       </Bar>
