@@ -4,6 +4,7 @@ import {
 } from 'recharts';
 import './Chart.css';
 import useDimensions from '../hooks/useDimensions';
+import formatBigNumber from '../functions/formatBigNumber';
 
 export default function Chart({label, chartData}) {
   const contentRef = useRef();
@@ -31,27 +32,19 @@ export default function Chart({label, chartData}) {
       <XAxis stroke="#888888" dataKey="name">
       <Label value={label} position="bottom"></Label>
         </XAxis>
-      <YAxis stroke="#888888" tickFormatter={tick => {
-        let unit = '';
-
-        if (tick > 1000000) {
-          tick = tick / 1000000;
-          unit = 'M';
-        } else if (tick > 1000) {
-          tick = tick / 1000;
-          unit = 'k';
-        }
-          return tick.toLocaleString() + unit;
-        }}>
+      <YAxis stroke="#888888" tickFormatter={tick => formatBigNumber(tick)}>
           
         </YAxis>
       <Tooltip />
      
       <Bar dataKey="value" fill="#8884d8">
       {
-        chartData.map((entry, index) => (
-          <Cell cursor="pointer" fill={entry.isForecast ? '#82ca9d' : '#8884d8'} key={`cell-${index}`} />
-        ))
+        chartData.map((entry, index) => {
+          //const date = new Date(entry.name);
+          //const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+          return (
+          <Cell cursor="pointer" fill={isWeekend ? /*'#82ca9d'*/ '#8884d8' : '#8884d8'} key={`cell-${index}`} />
+        )})
       }
       </Bar>
       

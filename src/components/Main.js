@@ -18,6 +18,17 @@ export default function Main({ data, since, label }) {
       .filter(dateSince(since));
   }, [data, since]);
 
+  const dowDistribution = useMemo(() => {
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dowDist = calculateDowDistribution(visibleDataSeries);
+    return dowDist.map((number, dow) => {
+      return [
+        dayNames[dow],
+        number
+      ]
+    });
+  }, [visibleDataSeries]);
+
   useEffect(() => {
     setChartDataCases(visibleDataSeries.map(dp => ({
       name: dp[0],
@@ -42,6 +53,27 @@ export default function Main({ data, since, label }) {
         <Chart label="Change" chartData={chartDataChange} />
         <Chart label="Change in %" chartData={chartDataGrowth} />
       </div>
+
+      <h3>Weekly oscillation (averages of numbers by day of week)</h3>
+        <table className="beautiful-table">
+          <thead>
+            <tr>
+              <th className="Main-date">Day of week</th>
+              <th className="Main-number">{label}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {dowDistribution.map((data) => (
+              <tr key={data[0]}>
+                <td className="Main-date">{data[0]}</td>
+                <td className="Main-number">{Math.round(data[1]).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      <h3>Data points</h3>
       <div className="Main-tableContainer">
         <table className="beautiful-table">
           <thead>
@@ -67,6 +99,27 @@ export default function Main({ data, since, label }) {
       <hr className="Main-divider"></hr>
     </>
   )
+}
+
+function calculateDowDistribution(data) {
+  const weekArray = () => ([0, 0, 0, 0, 0, 0, 0]);
+  const reduceResult = data.reduce((acc, curr) => {
+    const date = new Date(curr[0]);
+    const dow = date.getDay();
+    acc['numberOfCases'][dow] += curr[5];
+    acc['numberOfDataPoints'][dow]++;
+    return acc;
+  }, {
+    numberOfCases: weekArray(),
+    numberOfDataPoints: weekArray(),
+  });
+
+  const result = weekArray();
+  reduceResult['numberOfDataPoints'].forEach((_, dow) => {
+    result[dow] = reduceResult['numberOfCases'][dow] / reduceResult['numberOfDataPoints'][dow];
+  });
+
+  return result;
 }
 
 function calculateGrowth(data) {

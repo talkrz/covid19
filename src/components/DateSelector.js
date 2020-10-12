@@ -8,7 +8,7 @@ export default function DateSelector({ onDateSelected }) {
 
     switch(e.target.value) {
       case '1w':
-        date.setDate(date.getDate() - 7);
+        date.setDate(date.getDate() - 8); // because the data is delayed by a day
         break;
       case '1m':
         date.setMonth(date.getMonth() - 1);
