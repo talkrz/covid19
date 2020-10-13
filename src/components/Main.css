@@ -6,6 +6,8 @@
 @media only screen and (min-width: 768px) {
   .Main-charts {
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .Main-tableContainer {
