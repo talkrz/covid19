@@ -6,7 +6,7 @@ import './Chart.css';
 import useDimensions from '../hooks/useDimensions';
 import formatBigNumber from '../functions/formatBigNumber';
 
-export default function Chart({label, chartData}) {
+export default function Chart({color, label, chartData}) {
   const contentRef = useRef();
   const [width, height] = useDimensions(contentRef);
 
@@ -37,13 +37,13 @@ export default function Chart({label, chartData}) {
         </YAxis>
       <Tooltip />
      
-      <Bar dataKey="value" fill="#8884d8">
+      <Bar dataKey="value" fill={color}>
       {
         chartData.map((entry, index) => {
-          const date = new Date(entry.name);
-          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+          //const date = new Date(entry.name);
+          //const isWeekend = date.getDay() === 0 || date.getDay() === 6;
           return (
-          <Cell cursor="pointer" fill={isWeekend ? '#8884d8' : '#8884d8'} key={`cell-${index}`} />
+          <Cell cursor="pointer" fill={color} key={`cell-${index}`} />
         )})
       }
       </Bar>

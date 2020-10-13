@@ -22,6 +22,7 @@ function App() {
   return (
     <div className="App">
       <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
+
       <div className="App-source">Source code: <a target="_blank" rel="noopener noreferrer" href="https://github.com/talkrz/2019ncov">Github</a></div>
       <div className="App-source">COVID-19 data source: <a target="_blank" rel="noopener noreferrer"
           href="https://github.com/CSSEGISandData/COVID-19"

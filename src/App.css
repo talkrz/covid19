@@ -7,12 +7,14 @@
   align-items: center;
   justify-content: center;
 }
+
 .App h2 {
   font-size: 30px;
 }
 
 .App h1 {
   font-weight: lighter;
+  margin: 40px 0;
 }
 
 .App-select-button {
@@ -66,17 +68,4 @@
   text-decoration: none;
 }
 
-.App-countries-biggest-change {
-  text-align: left;
-}
-
-.App-countries-biggest-change a {
-  color: #000;
-}
-
-.App-countries-biggest-change a:hover {
-  text-decoration: underline;
-  cursor: pointer;
-
-}
 

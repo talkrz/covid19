@@ -4,11 +4,19 @@ import './Main.css';
 import '../commonStyles/table.css';
 import dateFormat from '../functions/dateFormat';
 import parseDate from '../functions/parseDate';
+import WeekDistributionChart from './charts/WeekDistributionChart';
 
 export default function Main({ data, since, label }) {
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
   const [chartDataChange, setChartDataChange] = useState([]);
+
+  const colorPalette = [
+    '#8884D9',
+    '#E6CD81',
+    '#87CC9D',
+    '#F09182',
+  ];
 
   const visibleDataSeries = useMemo(() => {
     const extendedData = calculateGrowth(data);
@@ -19,13 +27,13 @@ export default function Main({ data, since, label }) {
   }, [data, since]);
 
   const dowDistribution = useMemo(() => {
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const dowDist = calculateDowDistribution(visibleDataSeries);
     return dowDist.map((number, dow) => {
-      return [
-        dayNames[dow],
-        number
-      ]
+      return {
+        name: dayNames[dow],
+        value: number
+      }
     });
   }, [visibleDataSeries]);
 
@@ -49,29 +57,13 @@ export default function Main({ data, since, label }) {
   return (
     <>
       <div className="Main-charts">
-        <Chart label={label} chartData={chartDataCases} />
-        <Chart label="Change" chartData={chartDataChange} />
-        <Chart label="Change in %" chartData={chartDataGrowth} />
+        <Chart color={colorPalette[0]} label={label} chartData={chartDataCases} />
+        <Chart color={colorPalette[0]} label="Change" chartData={chartDataChange} />
+        <Chart color={colorPalette[0]} label="Change in %" chartData={chartDataGrowth} />
       </div>
 
-      <h3>Weekly oscillation (averages of numbers by day of week)</h3>
-        <table className="beautiful-table">
-          <thead>
-            <tr>
-              <th className="Main-date">Day of week</th>
-              <th className="Main-number">{label}</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {dowDistribution.map((data) => (
-              <tr key={data[0]}>
-                <td className="Main-date">{data[0]}</td>
-                <td className="Main-number">{Math.round(data[1]).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <h3>Weekly oscillation</h3>
+      <WeekDistributionChart color={colorPalette[1]} label="Averages by day of week" chartData={dowDistribution} />
 
       <h3>Data points</h3>
       <div className="Main-tableContainer">
@@ -85,7 +77,7 @@ export default function Main({ data, since, label }) {
           </thead>
 
           <tbody>
-            {visibleDataSeries.map(dataPoint => (
+            {visibleDataSeries.slice().reverse().map(dataPoint => (
               <tr key={dataPoint[0]}>
                 <td className="Main-date">{dataPoint[0]}</td>
                 <td className="Main-number">{dataPoint[1].toLocaleString()}</td>
