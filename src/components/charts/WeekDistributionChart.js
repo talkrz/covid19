@@ -25,7 +25,6 @@ export default function WeekDistributionChart({color, label, chartData}) {
       <Label value={label} position="bottom"></Label>
         </XAxis>
       <YAxis stroke="#888888" tickFormatter={tick => formatBigNumber(tick)}>
-          
         </YAxis>
       <Tooltip />
      

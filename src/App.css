@@ -54,7 +54,7 @@
   }
 }
 
-.App-filters div {
+.App-filters div:not(:last-child) {
   margin-right: 20px;
 }
 

@@ -73,6 +73,7 @@ export default function Main({ data, since, label }) {
               <th className="Main-date">Date</th>
               <th className="Main-number">{label}</th>
               <th className="Main-number">Change</th>
+              <th className="Main-number">Change (%)</th>
             </tr>
           </thead>
 
@@ -81,6 +82,7 @@ export default function Main({ data, since, label }) {
               <tr key={dataPoint[0]}>
                 <td className="Main-date">{dataPoint[0]}</td>
                 <td className="Main-number">{dataPoint[1].toLocaleString()}</td>
+                <td className="Main-number">{dataPoint[5].toLocaleString()}</td>
                 <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
               </tr>
             ))}
