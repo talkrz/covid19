@@ -26,8 +26,12 @@ export default function DateSelector({ onDateSelected }) {
       case '6m':
         date.setMonth(date.getMonth() - 6);
         break;
-      default:
+      case 'all':
         date.setFullYear(2018);
+        break;
+      default:
+        date.setMonth(date.getMonth() - 3);
+        break;
     }
     onDateSelected(dateFormat(date));
   }
@@ -36,7 +40,7 @@ export default function DateSelector({ onDateSelected }) {
     <div className="DateSelector">
       <label>Date range:</label>
       <select onChange={changeDateHandler} className="DateSelector-select">
-        <option value="beginning">all dates</option>
+        <option value="all">all dates</option>
         <option value="1w">last week</option>
         <option value="1m">last month</option>
         <option value="2m">last 2 months</option>
