@@ -26,11 +26,14 @@ export default function DateSelector({ onDateSelected }) {
       case '6m':
         date.setMonth(date.getMonth() - 6);
         break;
+      case '1y':
+        date.setMonth(date.getMonth() - 12);
+        break;
       case 'all':
         date.setFullYear(2018);
         break;
       default:
-        date.setMonth(date.getMonth() - 3);
+        date.setFullYear(2018);
         break;
     }
     onDateSelected(dateFormat(date));
