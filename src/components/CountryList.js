@@ -43,7 +43,7 @@ export default function CountryList({label, data, dataSeriesKey, calc, formatter
 
   return (
     <>
-      <h2 class="CountryList-header">{label}</h2>
+      <h2 className="CountryList-header">{label}</h2>
 
       <table className="beautiful-table">
         <thead>

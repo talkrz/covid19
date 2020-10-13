@@ -12,7 +12,6 @@ function App() {
   const [since, setSince] = useState(null)
   const [country, setCountry] = useState('total');
 
-
   const countries = useMemo(() => {
     return Object.keys(data)
       .filter(countryName => !excludeCountries.includes(countryName))

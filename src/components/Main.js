@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import Chart from './Chart';
+import Chart from './charts/Chart';
 import './Main.css';
 import '../commonStyles/table.css';
 import dateFormat from '../functions/dateFormat';
