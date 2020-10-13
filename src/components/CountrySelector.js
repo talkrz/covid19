@@ -7,7 +7,7 @@ export default function CountrySelector({ onCountrySelected, country, countries 
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    setInputValue(country);
+    setInputValue(country === 'total' ? '' : country);
   }, [country]);
 
   const searchCountries = value => {
