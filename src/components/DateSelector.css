@@ -1,0 +1,23 @@
+.DateSelector {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.DateSelector label {
+  font-size: 14px;
+  color: #888;
+}
+
+.DateSelector-select {
+  width: 240px;
+  height: 42px;
+  padding: 5px 10px;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.DateSelector-select:focus {
+  outline: none;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import dateFormat from '../functions/dateFormat';
+import './DateSelector.css';
 
 export default function DateSelector({ onDateSelected }) {
 
@@ -32,9 +33,9 @@ export default function DateSelector({ onDateSelected }) {
   }
 
   return (
-    <div>
-      <label>Display data from:</label>
-      <select onChange={changeDateHandler}>
+    <div className="DateSelector">
+      <label>Date range:</label>
+      <select onChange={changeDateHandler} className="DateSelector-select">
         <option value="beginning">all dates</option>
         <option value="1w">last week</option>
         <option value="1m">last month</option>
