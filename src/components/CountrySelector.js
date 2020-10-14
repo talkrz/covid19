@@ -15,8 +15,8 @@ export default function CountrySelector({ onCountrySelected, country, countries 
     const inputLength = inputValue.length;
 
     return inputLength === 0 ? [] : countries.filter(c =>
-      c.toLowerCase().slice(0, inputLength) === inputValue
-    );
+      c.toLowerCase().includes(inputValue)
+    ).slice(0, 20);
   };
 
   const onChange = (event, { newValue }) => {
