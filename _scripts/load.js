@@ -17,6 +17,8 @@ function parseCell(value) {
 function discoverInputDataColumns(data) {
   const topLocationColumnName = 'Country/Region';
   const topLocationColumnName2 = 'Country_Region';
+  const subLocationColumnName = 'Province/State';
+  const subLocationColumnName2 = 'Province_State';
   const confirmedColumnName = 'Confirmed';
   const deathsColumnName = 'Deaths';
   const recoveredColumnName = 'Recovered';
@@ -26,19 +28,20 @@ function discoverInputDataColumns(data) {
   if (countryNameIndex === -1) {
     countryNameIndex = data[0].findIndex(columnName => columnName === topLocationColumnName2);
   }
+
+  let provinceNameIndex = data[0].findIndex(columnName => columnName === subLocationColumnName);
+  if (provinceNameIndex === -1) {
+    provinceNameIndex = data[0].findIndex(columnName => columnName === subLocationColumnName2);
+  }
+
   const confirmedIndex = data[0].findIndex(columnName => columnName === confirmedColumnName);
   const deathsIndex = data[0].findIndex(columnName => columnName === deathsColumnName);
   const recoveredIndex = data[0].findIndex(columnName => columnName === recoveredColumnName);
 
-  return [countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex];
+  return [countryNameIndex, provinceNameIndex, confirmedIndex, deathsIndex, recoveredIndex];
 }
 
-function appendFile(filename, data) {
-  const [ countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
-
-  // remove header element leaving only data rows
-  data.shift();
-
+function appendResultsGroupedByLocation(data, date, locationNameIndex, confirmedIndex, deathsIndex, recoveredIndex) {
   const sumCasesNumbers = (acc, inputDataRow) => {
     acc[0] += parseCell(inputDataRow[confirmedIndex]);
     acc[1] += parseCell(inputDataRow[deathsIndex]);
@@ -46,26 +49,33 @@ function appendFile(filename, data) {
     return acc;
   }
 
-  const countryName = (inputDataRow) => (inputDataRow[countryNameIndex]);
+  const locationName = (inputDataRow) => (inputDataRow[locationNameIndex]);
 
-  const byCountryPartialResult = reduceBy(sumCasesNumbers, [0, 0, 0], countryName, data);
+  const byCountryPartialResult = reduceBy(sumCasesNumbers, [0, 0, 0], locationName, data);
   const totalPartialResult = reduce(sumCasesNumbers, [0, 0, 0], data);
   const partialResult = { ...byCountryPartialResult, total: totalPartialResult };
 
-  const date = filename.substring(0, filename.indexOf('.'));
-
-  Object.keys(partialResult).forEach(countryName => {
-    if (result[countryName] === undefined) {
-      result[countryName] = {
+  Object.keys(partialResult).forEach(locationName => {
+    if (result[locationName] === undefined) {
+      result[locationName] = {
         confirmed: [],
         deaths: [],
         recovered: [],
       }
     }
-    result[countryName].confirmed.push([date, partialResult[countryName][0]]);
-    result[countryName].deaths.push([date, partialResult[countryName][1]]);
-    result[countryName].recovered.push([date, partialResult[countryName][2]]);
+    result[locationName].confirmed.push([date, partialResult[locationName][0]]);
+    result[locationName].deaths.push([date, partialResult[locationName][1]]);
+    result[locationName].recovered.push([date, partialResult[locationName][2]]);
   });
+}
+
+function appendFile(filename, data) {
+  const [ countryNameIndex, provinceNameIndex, confirmedIndex, deathsIndex, recoveredIndex ] = discoverInputDataColumns(data);
+
+  // remove header element leaving only data rows
+  data.shift();
+  const date = filename.substring(0, filename.indexOf('.'));
+  appendResultsGroupedByLocation(data, date, countryNameIndex, confirmedIndex, deathsIndex, recoveredIndex);
 }
 
 function load() {
