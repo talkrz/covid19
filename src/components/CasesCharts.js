@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Chart from './charts/Chart';
 import './CasesCharts.css';
 import '../commonStyles/table.css';
@@ -6,10 +6,6 @@ import WeekDistributionChart from './charts/WeekDistributionChart';
 import averageByDayOfWeek from '../dataProcessing/aggregate';
 
 export default function CasesCharts({ tableData, label }) {
-  const [chartDataCases, setChartDataCases] = useState([]);
-  const [chartDataGrowth, setChartDataGrowth] = useState([]);
-  const [chartDataChange, setChartDataChange] = useState([]);
-
   const colorPalette = [
     '#8884D9',
     '#E6CD81',
@@ -29,23 +25,9 @@ export default function CasesCharts({ tableData, label }) {
   }, [tableData]);
 
   const reversedTableData = useMemo(() => tableData.slice().reverse(), [tableData])
-
-  useEffect(() => {
-    setChartDataCases(tableData.map(dp => ({
-      name: dp[0],
-      value: dp[1]
-    })));
-
-    setChartDataGrowth(tableData.map(dp => ({
-      name: dp[0],
-      value: dp[3]
-    })));
-
-    setChartDataChange(tableData.map(dp => ({
-      name: dp[0],
-      value: dp[2]
-    })));
-  }, [tableData]);
+  const chartDataCases = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[1] }))), [tableData]);
+  const chartDataGrowth = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[3]}))), [tableData]);
+  const chartDataChange = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
 
   return (
     <>
