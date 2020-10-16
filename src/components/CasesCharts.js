@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Chart from './charts/Chart';
-import './Main.css';
+import './CasesCharts.css';
 import '../commonStyles/table.css';
 import WeekDistributionChart from './charts/WeekDistributionChart';
 
-export default function Main({ casesData, difference, growth, label }) {
+export default function CasesCharts({ casesData, difference, growth, label }) {
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
   const [chartDataChange, setChartDataChange] = useState([]);

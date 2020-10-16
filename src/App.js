@@ -1,14 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import './App.css';
 
-import Main from './components/Main';
+import CasesCharts from './components/CasesCharts';
 import data from './data/data.json';
 import excludeCountries from './data/excludeCountries.json';
 import CountryList from './components/CountryList';
 import DateSelector from './components/DateSelector';
 import CountrySelector from './components/CountrySelector';
 import viewCharts from './dataProcessing/viewCharts';
-
+import viewCountryLists from './dataProcessing/viewCountryLists';
 
 function App() {
   const [since, setSince] = useState(null)
@@ -21,7 +21,7 @@ function App() {
   }, []);
 
   const chartsViewData = useMemo(() => viewCharts(data, country, since), [country, since]);
-
+  const countryLists = useMemo(() => viewCountryLists(data, excludeCountries), []);
   return (
     <div className="App">
       <h1>Monitoring the Coronavirus disease 2019 spread pace</h1>
@@ -39,49 +39,37 @@ function App() {
       </div>
 
       <h2>Confirmed cases ({country})</h2>
-      <Main casesData={chartsViewData.cases} difference={chartsViewData.casesDifference} growth={chartsViewData.casesGrowth} label="Confirmed cases" />
+      <CasesCharts casesData={chartsViewData.cases} difference={chartsViewData.casesDifference} growth={chartsViewData.casesGrowth} label="Confirmed cases" />
 
       <h2>Deaths ({country})</h2>
-      <Main casesData={chartsViewData.deaths} difference={chartsViewData.deathsDifference} growth={chartsViewData.deathsGrowth} label="Deaths" />
+      <CasesCharts casesData={chartsViewData.deaths} difference={chartsViewData.deathsDifference} growth={chartsViewData.deathsGrowth} label="Deaths" />
 
       <CountryList
         label="Countries with the biggest cases change"
-        data={data}
-        dataSeriesKey="confirmed"
-        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
+        countryList={countryLists.casesDifference}
         formatter={v => v.toLocaleString()}
         setCountry={setCountry}
-        excludeCountries={excludeCountries}
       />
 
       <CountryList
         label="Countries with the biggest growth"
-        data={data}
-        dataSeriesKey="confirmed"
-        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
+        countryList={countryLists.casesPercentage}
         formatter={v => v.toFixed(1).toLocaleString() + '%'}
         setCountry={setCountry}
-        excludeCountries={excludeCountries}
       />
 
       <CountryList
         label="Countries with the biggest deaths change"
-        data={data}
-        dataSeriesKey="deaths"
-        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev))}
+        countryList={countryLists.deathsDifference}
         formatter={v => v.toLocaleString()}
         setCountry={setCountry}
-        excludeCountries={excludeCountries}
       />
 
       <CountryList
         label="Countries with the biggest deaths growth"
-        data={data}
-        dataSeriesKey="deaths"
-        calc={(curr, prev) => (curr === 0 ? 0.0 : (curr - prev) / prev * 100)}
+        countryList={countryLists.deathsPercentage}
         formatter={v => v.toFixed(1).toLocaleString() + '%'}
         setCountry={setCountry}
-        excludeCountries={excludeCountries}
       />
     </div>
   );

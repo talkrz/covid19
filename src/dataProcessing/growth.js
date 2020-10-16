@@ -1,10 +1,10 @@
 import { aperture } from 'ramda';
 
-function difference(prev, curr) {
+export function difference(prev, curr) {
   return curr - prev;
 }
 
-function percentGrowth(prev, curr) {
+export function percentGrowth(prev, curr) {
   if (prev === 0) {
     return 0;
   }
