@@ -7,6 +7,8 @@ import excludeCountries from './data/excludeCountries.json';
 import CountryList from './components/CountryList';
 import DateSelector from './components/DateSelector';
 import CountrySelector from './components/CountrySelector';
+import viewCharts from './dataProcessing/viewCharts';
+
 
 function App() {
   const [since, setSince] = useState(null)
@@ -17,6 +19,8 @@ function App() {
       .filter(countryName => !excludeCountries.includes(countryName))
       .sort();
   }, []);
+
+  const chartsViewData = useMemo(() => viewCharts(data, country, since), [country, since]);
 
   return (
     <div className="App">
@@ -35,10 +39,10 @@ function App() {
       </div>
 
       <h2>Confirmed cases ({country})</h2>
-      <Main data={data[country].confirmed} since={since} label="Confirmed cases" />
+      <Main casesData={chartsViewData.cases} difference={chartsViewData.casesDifference} growth={chartsViewData.casesGrowth} label="Confirmed cases" />
 
       <h2>Deaths ({country})</h2>
-      <Main data={data[country].deaths} since={since} label="Deaths" />
+      <Main casesData={chartsViewData.deaths} difference={chartsViewData.deathsDifference} growth={chartsViewData.deathsGrowth} label="Deaths" />
 
       <CountryList
         label="Countries with the biggest cases change"
@@ -82,7 +86,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

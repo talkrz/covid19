@@ -2,11 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Chart from './charts/Chart';
 import './Main.css';
 import '../commonStyles/table.css';
-import dateFormat from '../functions/dateFormat';
-import parseDate from '../functions/parseDate';
 import WeekDistributionChart from './charts/WeekDistributionChart';
 
-export default function Main({ data, since, label }) {
+export default function Main({ casesData, difference, growth, label }) {
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
   const [chartDataChange, setChartDataChange] = useState([]);
@@ -18,41 +16,47 @@ export default function Main({ data, since, label }) {
     '#F09182',
   ];
 
-  const visibleDataSeries = useMemo(() => {
-    const extendedData = calculateGrowth(data);
 
-    return extendedData
-      .map(normalizeDate)
-      .filter(dateSince(since));
-  }, [data, since]);
+  const tableData = useMemo(() => {
+    return casesData.map((dataPoint, i) => {
+      return [
+        dataPoint[0],
+        dataPoint[1],
+        i === 0 ? 0 : difference[i - 1],
+        i === 0 ? 0 : growth[i - 1]
+      ]
+    })
+  }, [casesData, difference, growth]);
 
   const dowDistribution = useMemo(() => {
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const dowDist = calculateDowDistribution(visibleDataSeries);
+    const dowDist = calculateDowDistribution(tableData);
     return dowDist.map((number, dow) => {
       return {
         name: dayNames[dow],
         value: number
       }
     });
-  }, [visibleDataSeries]);
+  }, [tableData]);
+
+  const reversedTableData = useMemo(() => tableData.slice().reverse(), [tableData])
 
   useEffect(() => {
-    setChartDataCases(visibleDataSeries.map(dp => ({
+    setChartDataCases(tableData.map(dp => ({
       name: dp[0],
       value: dp[1]
     })));
 
-    setChartDataGrowth(visibleDataSeries.map(dp => ({
+    setChartDataGrowth(tableData.map(dp => ({
       name: dp[0],
-      value: dp[4]
+      value: dp[3]
     })));
 
-    setChartDataChange(visibleDataSeries.map(dp => ({
+    setChartDataChange(tableData.map(dp => ({
       name: dp[0],
-      value: dp[5]
+      value: dp[2]
     })));
-  }, [visibleDataSeries]);
+  }, [tableData]);
 
   return (
     <>
@@ -78,12 +82,12 @@ export default function Main({ data, since, label }) {
           </thead>
 
           <tbody>
-            {visibleDataSeries.slice().reverse().map(dataPoint => (
+            {reversedTableData.map((dataPoint) => (
               <tr key={dataPoint[0]}>
                 <td className="Main-date">{dataPoint[0]}</td>
                 <td className="Main-number">{dataPoint[1].toLocaleString()}</td>
-                <td className="Main-number">{dataPoint[5].toLocaleString()}</td>
-                <td className="Main-number">{dataPoint[4].toFixed(1)}%</td>
+                <td className="Main-number">{dataPoint[2].toLocaleString()}</td>
+                <td className="Main-number">{dataPoint[3].toFixed(1)}%</td>
               </tr>
             ))}
           </tbody>
@@ -100,7 +104,7 @@ function calculateDowDistribution(data) {
   const reduceResult = data.reduce((acc, curr) => {
     const date = new Date(curr[0]);
     const dow = date.getDay();
-    acc['numberOfCases'][dow] += curr[5];
+    acc['numberOfCases'][dow] += curr[2];
     acc['numberOfDataPoints'][dow]++;
     return acc;
   }, {
@@ -114,41 +118,4 @@ function calculateDowDistribution(data) {
   });
 
   return result;
-}
-
-function calculateGrowth(data) {
-  return data.map((dataPoint, i) => {
-    const exp = Math.log(dataPoint[1]);
-    const diff = i === 0
-      ? 0.0
-      : Math.log(data[i][1]) - Math.log(data[i-1][1]);
-    
-    const difference = i === 0
-      ? 0
-      : data[i][1] - data[i-1][1];
-
-    const growth = (i === 0 || data[i-1][1] === 0)
-      ? 0.0
-      : (data[i][1] - data[i-1][1]) / data[i-1][1] * 100;
-    return [
-      dataPoint[0], // date
-      dataPoint[1], // number of cases
-      exp, // exponent of function
-      diff, // derivative of the exponent aka growth rate
-      growth, // growth in %
-      difference, // change between currend and previous value
-    ]
-  })
-}
-
-function normalizeDate(dataPoint) {
-  const result = dataPoint.slice();
-  result[0] = dateFormat(new Date(parseDate(dataPoint[0])));
-  return result;
-}
-
-function dateSince(since) {
-  return (dataPoint) => {
-    return since === null || dataPoint[0] > since;
-  }
 }
