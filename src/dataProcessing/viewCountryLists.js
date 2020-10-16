@@ -3,23 +3,19 @@ import { difference, percentGrowth } from "./growth";
 function makeCountryList(data, dataSeriesKey, calc, excludeCountries) {
   const list = [];
 
-  Object
-    .keys(data)
+  Object.keys(data)
     .filter(countryName => !excludeCountries.includes(countryName))
     .filter(countryName => data[countryName][dataSeriesKey].length > 1)
-    .forEach(
-      (countryName) => {
+    .forEach((countryName) => {
+      const dataSeries = data[countryName][dataSeriesKey];
 
-        const dataSeries = data[countryName][dataSeriesKey];
+      const dataSeriesNumber = dataSeries.length;
+      const last = dataSeries[dataSeriesNumber - 1][1];
+      const previous = dataSeries[dataSeriesNumber - 2][1];
+      const change = calc(previous, last);
 
-        const dataSeriesNumber = dataSeries.length;
-        const last = dataSeries[dataSeriesNumber - 1][1];
-        const previous = dataSeries[dataSeriesNumber - 2][1];
-        const change = calc(previous, last);
-
-        list.push([countryName, change]);
-
-      });
+      list.push([countryName, change]);
+    });
 
   list.sort((a, b) => (b[1] - a[1]));
 

@@ -39,10 +39,10 @@ function App() {
       </div>
 
       <h2>Confirmed cases ({country})</h2>
-      <CasesCharts casesData={chartsViewData.cases} difference={chartsViewData.casesDifference} growth={chartsViewData.casesGrowth} label="Confirmed cases" />
+      <CasesCharts tableData={chartsViewData.casesAllInOne} label="Confirmed cases" />
 
       <h2>Deaths ({country})</h2>
-      <CasesCharts casesData={chartsViewData.deaths} difference={chartsViewData.deathsDifference} growth={chartsViewData.deathsGrowth} label="Deaths" />
+      <CasesCharts tableData={chartsViewData.deathsAllInOne} label="Deaths" />
 
       <CountryList
         label="Countries with the biggest cases change"

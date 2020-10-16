@@ -3,8 +3,9 @@ import Chart from './charts/Chart';
 import './CasesCharts.css';
 import '../commonStyles/table.css';
 import WeekDistributionChart from './charts/WeekDistributionChart';
+import averageByDayOfWeek from '../dataProcessing/aggregate';
 
-export default function CasesCharts({ casesData, difference, growth, label }) {
+export default function CasesCharts({ tableData, label }) {
   const [chartDataCases, setChartDataCases] = useState([]);
   const [chartDataGrowth, setChartDataGrowth] = useState([]);
   const [chartDataChange, setChartDataChange] = useState([]);
@@ -16,21 +17,9 @@ export default function CasesCharts({ casesData, difference, growth, label }) {
     '#F09182',
   ];
 
-
-  const tableData = useMemo(() => {
-    return casesData.map((dataPoint, i) => {
-      return [
-        dataPoint[0],
-        dataPoint[1],
-        i === 0 ? 0 : difference[i - 1],
-        i === 0 ? 0 : growth[i - 1]
-      ]
-    })
-  }, [casesData, difference, growth]);
-
   const dowDistribution = useMemo(() => {
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const dowDist = calculateDowDistribution(tableData);
+    const dowDist = averageByDayOfWeek(tableData);
     return dowDist.map((number, dow) => {
       return {
         name: dayNames[dow],
@@ -99,23 +88,3 @@ export default function CasesCharts({ casesData, difference, growth, label }) {
   )
 }
 
-function calculateDowDistribution(data) {
-  const weekArray = () => ([0, 0, 0, 0, 0, 0, 0]);
-  const reduceResult = data.reduce((acc, curr) => {
-    const date = new Date(curr[0]);
-    const dow = date.getDay();
-    acc['numberOfCases'][dow] += curr[2];
-    acc['numberOfDataPoints'][dow]++;
-    return acc;
-  }, {
-    numberOfCases: weekArray(),
-    numberOfDataPoints: weekArray(),
-  });
-
-  const result = weekArray();
-  reduceResult['numberOfDataPoints'].forEach((_, dow) => {
-    result[dow] = reduceResult['numberOfCases'][dow] / reduceResult['numberOfDataPoints'][dow];
-  });
-
-  return result;
-}
