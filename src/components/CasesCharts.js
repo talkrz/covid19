@@ -16,12 +16,10 @@ export default function CasesCharts({ tableData, label }) {
   const dowDistribution = useMemo(() => {
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const dowDist = averageByDayOfWeek(tableData);
-    return dowDist.map((number, dow) => {
-      return {
-        name: dayNames[dow],
-        value: number
-      }
-    });
+    return dowDist.map((number, dow) => ({
+      name: dayNames[dow],
+      value: number
+    }));
   }, [tableData]);
 
   const reversedTableData = useMemo(() => tableData.slice().reverse(), [tableData])
