@@ -1,0 +1,45 @@
+.HomePage {
+  padding: 0 5px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.HomePage h2 {
+  font-size: 30px;
+}
+
+.HomePage h1 {
+  text-align: center;
+  font-weight: lighter;
+  margin: 40px 20px;
+}
+
+.HomePage-filters {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (min-width: 768px) {
+  .HomePage-filters {
+    flex-direction: row;
+  }
+}
+
+.HomePage-filters div:not(:last-child) {
+  margin-right: 20px;
+}
+
+.HomePage-filters label {
+  margin-right: 10px
+}
+
+.HomePage a {
+  color: #888;
+  text-decoration: none;
+}
+
+
