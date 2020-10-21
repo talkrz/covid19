@@ -1,6 +1,7 @@
 import { dateSince } from "./filters";
 import { normalizeDate } from "./mappers";
 import { calculateDifference, calculatePercentGrowth } from "./growth";
+import averageByDayOfWeek from "./aggregate";
 
 const makeDataForCharts = (inputData, since) => (
   inputData
@@ -8,40 +9,53 @@ const makeDataForCharts = (inputData, since) => (
     .filter(dateSince(since))
 );
 
-export default function viewCharts(data, country, since) {
-  const cases = makeDataForCharts(data[country].confirmed, since);
-  const deaths = makeDataForCharts(data[country].deaths, since);
+function makeView(data, country, since, dataPointType) {
+  const cumulative = makeDataForCharts(data[country][dataPointType], since);
+  const cumulativeFlat = cumulative.map(dataPoint => dataPoint[1]);
 
-  const casesValues = cases.map(dataPoint => dataPoint[1]);
-  const deathsValues = deaths.map(dataPoint => dataPoint[1]);
+  const difference = calculateDifference(cumulativeFlat);
+  const growth = calculatePercentGrowth(cumulativeFlat);
 
-  const casesDifference = calculateDifference(casesValues);
-  const deathsDifference = calculateDifference(deathsValues);
-  const casesGrowth = calculatePercentGrowth(casesValues);
-  const deathsGrowth = calculatePercentGrowth(deathsValues);
-
-  const casesAllInOne = cases.map((dataPoint, i) => {
+  const allInOne = cumulative.map((dataPoint, i) => {
     return [
       dataPoint[0],
       dataPoint[1],
-      i === 0 ? 0 : casesDifference[i - 1],
-      i === 0 ? 0 : casesGrowth[i - 1]
+      i === 0 ? 0 : difference[i - 1],
+      i === 0 ? 0 : growth[i - 1],
     ]
   });
 
-  const deathsAllInOne = deaths.map((dataPoint, i) => {
+  const dayOfWeekAverages  = averageByDayOfWeek(allInOne);
+
+  const weeklyMean = dayOfWeekAverages.reduce((acc, curr) => (acc + curr), 0) / dayOfWeekAverages.length;
+  const adjustmentCoefficients = dayOfWeekAverages.map(v => v / weeklyMean);
+
+
+  const allInOneWeeklyAdjusted = cumulative.map((dataPoint, i) => {
+    const date = new Date(dataPoint[0]);
+    const dow = date.getDay();
+
     return [
       dataPoint[0],
       dataPoint[1],
-      i === 0 ? 0 : deathsDifference[i - 1],
-      i === 0 ? 0 : deathsGrowth[i - 1]
+      i === 0 ? 0 : difference[i - 1] / adjustmentCoefficients[dow],
+      i === 0 ? 0 : growth[i - 1],
     ]
   });
 
   return {
-    cases,
-    deaths,
-    casesAllInOne,
-    deathsAllInOne,
+    cumulative,
+    difference,
+    growth,
+    allInOne,
+    dayOfWeekAverages,
+    allInOneWeeklyAdjusted,
+  }
+}
+
+export default function viewCharts(data, country, since) {
+  return {
+    cases: makeView(data, country, since, 'confirmed'),
+    deaths: makeView(data, country, since, 'deaths'),
   }
 }

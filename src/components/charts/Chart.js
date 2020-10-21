@@ -6,7 +6,7 @@ import './Chart.css';
 import useDimensions from '../../hooks/useDimensions';
 import formatBigNumber from '../../functions/formatBigNumber';
 
-export default function Chart({color, label, chartData}) {
+export default function Chart({color, label, chartData, ignoreNegativeValues = false}) {
   const contentRef = useRef();
   const [width, height] = useDimensions(contentRef);
 
@@ -19,12 +19,15 @@ export default function Chart({color, label, chartData}) {
   }
 
   const processedChartData = useMemo(() => {
+    if (!ignoreNegativeValues) {
+      return chartData;
+    }
     return chartData.map(dp => {
       const copy = { ...dp };
-      copy.value = dp.value < 0 ? 0.0 : dp.value; // ignore negative values!
+      copy.value = dp.value < 0 ? 0.0 : dp.value;
       return copy; 
     });
-  }, [chartData]);
+  }, [chartData, ignoreNegativeValues]);
 
   return (
     <div className="Chart" ref={contentRef}>

@@ -39,10 +39,16 @@ export default function HomePage() {
       </div>
 
       <h2>Confirmed cases ({country})</h2>
-      <CasesCharts tableData={chartsViewData.casesAllInOne} label="Confirmed cases" />
+      <CasesCharts
+        label="Confirmed cases"
+        tableData={chartsViewData.cases}
+      />
 
       <h2>Deaths ({country})</h2>
-      <CasesCharts tableData={chartsViewData.deathsAllInOne} label="Deaths" />
+      <CasesCharts
+        label="Deaths"
+        tableData={chartsViewData.deaths}
+      />
 
       <CountryList
         label="Countries with the biggest cases change"

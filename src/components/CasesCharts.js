@@ -3,7 +3,6 @@ import Chart from './charts/Chart';
 import './CasesCharts.css';
 import '../commonStyles/table.css';
 import WeekDistributionChart from './charts/WeekDistributionChart';
-import averageByDayOfWeek from '../dataProcessing/aggregate';
 
 export default function CasesCharts({ tableData, label }) {
   const colorPalette = [
@@ -15,24 +14,25 @@ export default function CasesCharts({ tableData, label }) {
 
   const dowDistribution = useMemo(() => {
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const dowDist = averageByDayOfWeek(tableData);
-    return dowDist.map((number, dow) => ({
+    return tableData.dayOfWeekAverages.map((number, dow) => ({
       name: dayNames[dow],
       value: number
     }));
   }, [tableData]);
 
-  const reversedTableData = useMemo(() => tableData.slice().reverse(), [tableData])
-  const chartDataCases = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[1] }))), [tableData]);
-  const chartDataGrowth = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[3]}))), [tableData]);
-  const chartDataChange = useMemo(() => (tableData.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
+  const reversedTableData = useMemo(() => tableData.allInOne.slice().reverse(), [tableData])
+  const chartDataCases = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[1] }))), [tableData]);
+  const chartDataGrowth = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[3]}))), [tableData]);
+  const chartDataChange = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
+  const chartDataChangeWeeklyAdjusted = useMemo(() => (tableData.allInOneWeeklyAdjusted.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
 
   return (
     <>
       <div className="Main-charts">
         <Chart color={colorPalette[0]} label={label} chartData={chartDataCases} />
-        <Chart color={colorPalette[0]} label="Change" chartData={chartDataChange} />
-        <Chart color={colorPalette[0]} label="Change in %" chartData={chartDataGrowth} />
+        <Chart color={colorPalette[0]} label="Change" chartData={chartDataChange} ignoreNegativeValues={true} />
+        <Chart color={colorPalette[0]} label="Change weekly adjusted (experimental)" chartData={chartDataChangeWeeklyAdjusted} ignoreNegativeValues={true} />
+        <Chart color={colorPalette[0]} label="Change in %" chartData={chartDataGrowth} ignoreNegativeValues={true} />
       </div>
 
       <h3>Weekly oscillation</h3>
