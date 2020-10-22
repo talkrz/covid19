@@ -25,7 +25,7 @@ function makeView(data, country, since, dataPointType) {
     ]
   });
 
-  const dayOfWeekAverages  = averageByDayOfWeek(allInOne);
+  const dayOfWeekAverages = averageByDayOfWeek(allInOne);
 
   const weeklyMean = dayOfWeekAverages.reduce((acc, curr) => (acc + curr), 0) / dayOfWeekAverages.length;
   const adjustmentCoefficients = dayOfWeekAverages.map(v => v / weeklyMean);
