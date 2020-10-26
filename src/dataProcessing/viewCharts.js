@@ -27,9 +27,8 @@ function makeView(data, country, since, dataPointType) {
 
   const dayOfWeekAverages = averageByDayOfWeek(allInOne);
 
-  const weeklyMean = dayOfWeekAverages.reduce((acc, curr) => (acc + curr), 0) / dayOfWeekAverages.length;
-  const adjustmentCoefficients = dayOfWeekAverages.map(v => v / weeklyMean);
-
+  const weeklyMean = dayOfWeekAverages.reduce((acc, curr) => (acc + (curr > 0 ? curr : 0)), 0) / dayOfWeekAverages.length;
+  const adjustmentCoefficients = dayOfWeekAverages.map(v => (v > 0 ? v : 0) / weeklyMean);
 
   const allInOneWeeklyAdjusted = cumulative.map((dataPoint, i) => {
     const date = new Date(dataPoint[0]);
@@ -38,7 +37,7 @@ function makeView(data, country, since, dataPointType) {
     return [
       dataPoint[0],
       dataPoint[1],
-      i === 0 ? 0 : difference[i - 1] / adjustmentCoefficients[dow],
+      i === 0 ? 0 : difference[i - 1] / (adjustmentCoefficients[dow] > 0 ? adjustmentCoefficients[dow] : 1),
       i === 0 ? 0 : growth[i - 1],
     ]
   });
