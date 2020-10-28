@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./load.sh
+./_scripts/load.sh
 git add .
 git commit -m "Update data" 
 git push origin master
