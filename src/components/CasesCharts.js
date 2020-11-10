@@ -24,7 +24,7 @@ export default function CasesCharts({ tableData, label }) {
   const chartDataCases = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[1] }))), [tableData]);
   const chartDataGrowth = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[3]}))), [tableData]);
   const chartDataChange = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
-  const chartDataChangeWeeklyAdjusted = useMemo(() => (tableData.allInOneWeeklyAdjusted.map(dp => ({ name: dp[0], value: dp[2] }))), [tableData]);
+  const chartDataChangeWeeklyAdjusted = useMemo(() => (tableData.allInOne.map(dp => ({ name: dp[0], value: dp[4] }))), [tableData]);
 
   return (
     <>
