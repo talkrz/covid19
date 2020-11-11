@@ -52,6 +52,7 @@ function makeView(data, country, since, dataPointType) {
     growth,
     allInOne,
     dayOfWeekAverages,
+    allInOneWeeklyAdjusted,
   }
 }
 
