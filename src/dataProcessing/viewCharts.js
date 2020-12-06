@@ -46,6 +46,18 @@ function makeView(data, country, since, dataPointType) {
     ]
   });
 
+  const differenceWeekly = [];
+  let tmpSum = 0;
+  allInOne.forEach((dataPoint, i) => {
+    const date = new Date(dataPoint[0]);
+    const dow = date.getDay();
+    tmpSum += dataPoint[2];
+    if (dow === 0 || i === allInOne.length - 1) {
+      differenceWeekly.push([dataPoint[0], tmpSum]);
+      tmpSum = 0;
+    }
+  });
+
   return {
     cumulative,
     difference,
@@ -53,6 +65,7 @@ function makeView(data, country, since, dataPointType) {
     allInOne,
     dayOfWeekAverages,
     allInOneWeeklyAdjusted,
+    differenceWeekly,
   }
 }
 
