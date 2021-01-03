@@ -1,4 +1,5 @@
 import { difference, percentGrowth } from "./growth";
+import { normalizeDate } from "./mappers";
 
 function makeCountryList(data, dataSeriesKey, calc, excludeCountries) {
   const list = [];
@@ -7,7 +8,13 @@ function makeCountryList(data, dataSeriesKey, calc, excludeCountries) {
     .filter(countryName => !excludeCountries.includes(countryName))
     .filter(countryName => data[countryName][dataSeriesKey].length > 1)
     .forEach((countryName) => {
-      const dataSeries = data[countryName][dataSeriesKey];
+      const dataSeries = data[countryName][dataSeriesKey].map(normalizeDate);
+
+      dataSeries.sort((a, b) => {
+        if (a[0] > b[0]) return 1;
+        if (a[0] < b[0]) return -1;
+        return 0;
+      })
 
       const dataSeriesNumber = dataSeries.length;
       const last = dataSeries[dataSeriesNumber - 1][1];
