@@ -7,6 +7,11 @@ const makeDataForCharts = (inputData, since) => (
   inputData
     .map(normalizeDate)
     .filter(dateSince(since))
+    .sort((a, b) => {
+      if (a[0] > b[0]) return 1;
+      if (a[0] < b[0]) return -1;
+      return 0;
+    })
 );
 
 function makeView(data, country, since, dataPointType) {
