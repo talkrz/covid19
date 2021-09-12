@@ -52,7 +52,7 @@ export default function CasesCharts({ tableData, label }) {
                 <td className="Main-date">{dataPoint[0]}</td>
                 <td className="Main-number">{dataPoint[1].toLocaleString()}</td>
                 <td className="Main-number">{dataPoint[2].toLocaleString()}</td>
-                <td className="Main-number">{dataPoint[3].toFixed(2)}%</td>
+                <td className="Main-number">{dataPoint[3].toFixed(1)}%</td>
               </tr>
             ))}
           </tbody>
